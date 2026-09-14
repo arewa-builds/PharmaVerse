@@ -12,9 +12,10 @@ This is a research, simulation, and engineering prototype. It is **not** a valid
 
 The full objectives and execution plan live in [`project_description.txt`](./project_description.txt).
 
-**Current phase: 2 — World Labs Marble world generation.**  
+**Current phase: 3 — OpenUSD conversion and Environment V1.**  
 Phase 1 design: [`docs/system-design.md`](./docs/system-design.md).  
-Phase 2 runbook: [`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md).
+Phase 2 runbook: [`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md).  
+Phase 3 runbook: [`docs/phase-3-openusd.md`](./docs/phase-3-openusd.md).
 
 ---
 
@@ -88,8 +89,8 @@ Marble is generally available and the World API is public. Atlas is entering ear
 ### First implementation phases
 
 1. Research and architecture — **done** ([`docs/system-design.md`](./docs/system-design.md))
-2. **World Labs Marble world generation** — in progress ([`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md))
-3. OpenUSD conversion and environment prototype
+2. **World Labs Marble world generation** — done ([`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md))
+3. OpenUSD conversion and environment prototype — in progress ([`docs/phase-3-openusd.md`](./docs/phase-3-openusd.md))
 4. Isaac Sim integration
 5. Synthetic data pipeline
 6. Domain randomization
@@ -126,18 +127,14 @@ Demo loop: cleared station → residual object appears → camera observes it �
 
 ## Repository status
 
-Phase 2 adds a World API client and the `packaging_suite_v1` generation recipe. Live Marble calls need `WLT_API_KEY` and platform API credits.
+Phase 3 adds Environment V1 as OpenUSD ASCII. Live NuRec PLY→USDZ conversion needs an NVIDIA GPU and 3DGRUT.
 
 ```text
 PharmaVerse/
-├── README.md
-├── project_description.txt
-├── docs/system-design.md
-├── docs/phase-2-world-generation.md
-├── config/marble/packaging_suite_v1.yaml
-├── src/pharmaverse/worlds/     # generate / export / metadata
-├── worlds/marble/              # planned jobs, prompts, future exports
-└── .env.example
+├── docs/phase-3-openusd.md
+├── config/usd/environment_v1.yaml
+├── src/pharmaverse/usd/
+└── worlds/usd/environment_v1/environment_v1.usda
 ```
 
 ### Generate a Marble world
@@ -151,6 +148,14 @@ python -m pharmaverse.worlds generate --mode primary
 ```
 
 `--mode variants` generates the small packaging-suite family (primary + 3 prompt variants). Details: [`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md).
+
+### Compose Environment V1
+
+```bash
+python -m pharmaverse.usd compose
+```
+
+Opens as `worlds/usd/environment_v1/environment_v1.usda`. Details: [`docs/phase-3-openusd.md`](./docs/phase-3-openusd.md).
 
 Intended later layout:
 

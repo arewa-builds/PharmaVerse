@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pharmaverse"
-version = "0.2.0"
+version = "0.3.0"
 description = "World Labs Marble world generation and pharmaceutical simulation research platform"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -17,6 +17,7 @@ dev = ["pytest>=8.0"]
 
 [project.scripts]
 pharmaverse-worlds = "pharmaverse.worlds.cli:main"
+pharmaverse-usd = "pharmaverse.usd.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

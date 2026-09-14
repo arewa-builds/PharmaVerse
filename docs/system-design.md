@@ -478,7 +478,7 @@ Phase 1 is done when all of the following are in the repo:
 - [x] Atlas adoption criteria written
 - [x] Phase 2 prompt recipe written (`config/marble/packaging_suite_v1.yaml`)
 
-**Next:** Phase 2 — generate `packaging_suite_v1` with Marble / World API and store splat, collider, and metadata. The client and recipe are in `src/pharmaverse/worlds` and [`docs/phase-2-world-generation.md`](phase-2-world-generation.md). Live generation requires `WLT_API_KEY` plus World API credits.
+**Next:** Phase 3 — compose Environment V1 OpenUSD and convert Marble PLY through 3DGRUT / NuRec when GPU assets exist. See [`docs/phase-3-openusd.md`](phase-3-openusd.md) and `python -m pharmaverse.usd compose`.
 
 ---
 
