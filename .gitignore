@@ -17,18 +17,15 @@ __pycache__/
 worlds/marble/exports/**
 !worlds/marble/exports/
 !worlds/marble/exports/.gitkeep
-worlds/usd/
 synthetic_data/
 models/checkpoints/
 evaluation/runs/
 
-# World Labs / Omniverse interchange
+# World Labs / Omniverse binary interchange
 *.ply
 *.spz
 *.glb
 *.usdz
-*.usd
-*.usda
 *.usdc
 
 # Isaac Sim / NVIDIA

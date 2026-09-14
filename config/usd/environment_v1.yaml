@@ -1,0 +1,92 @@
+# PharmaVerse Environment V1 layout (meters, Y-up, USD camera looks down -Z).
+# Stand-in equipment exists so cameras have a room before a Marble splat is attached.
+# Marble splat/collider are referenced when Phase 2 exports exist.
+
+version: 1
+experiment: line_clearance_01
+stage_id: environment_v1
+meters_per_unit: 1
+up_axis: Y
+
+marble:
+  # Applied on /World/Marble. Override from world metadata when present.
+  metric_scale_factor: 1.0
+  ground_plane_offset: 0.0
+  # NVIDIA Marble→Isaac collider convention.
+  collider_rotate_xyz_deg: [-90.0, 0.0, 0.0]
+
+ground:
+  translate: [0.0, -0.01, 0.0]
+  scale: [12.0, 0.02, 8.0]
+
+reference_cube:
+  translate: [4.5, 0.5, 3.0]
+  scale: [1.0, 1.0, 1.0]
+
+lights:
+  dome:
+    intensity: 1200.0
+    color: [1.0, 1.0, 1.0]
+  distant:
+    intensity: 300.0
+    rotate_xyz_deg: [-45.0, 30.0, 0.0]
+
+equipment:
+  - name: Conveyor
+    semantic: conveyor
+    translate: [0.0, 0.85, 0.0]
+    scale: [4.0, 0.12, 0.45]
+    display_color: [0.55, 0.58, 0.62]
+  - name: PackagingStation
+    semantic: packaging_station
+    translate: [-1.6, 0.45, 0.9]
+    scale: [1.4, 0.9, 0.9]
+    display_color: [0.72, 0.74, 0.76]
+  - name: InspectionStation
+    semantic: inspection_station
+    translate: [1.7, 0.45, 0.9]
+    scale: [1.1, 0.9, 0.8]
+    display_color: [0.70, 0.73, 0.75]
+  - name: StagingTable
+    semantic: staging_area
+    translate: [-2.4, 0.40, -1.4]
+    scale: [1.2, 0.8, 0.8]
+    display_color: [0.62, 0.55, 0.48]
+
+zones:
+  packaging_station_01:
+    translate: [-1.6, 1.1, 0.9]
+    scale: [1.8, 2.2, 1.6]
+  conveyor_infeed:
+    translate: [-1.5, 1.1, 0.0]
+    scale: [1.2, 1.8, 0.9]
+  conveyor_exit:
+    translate: [1.5, 1.1, 0.0]
+    scale: [1.2, 1.8, 0.9]
+  inspection_station_01:
+    translate: [1.7, 1.1, 0.9]
+    scale: [1.4, 2.0, 1.4]
+  material_staging:
+    translate: [-2.4, 1.0, -1.4]
+    scale: [1.6, 2.0, 1.4]
+
+cameras:
+  cam_overhead:
+    translate: [0.0, 3.15, 0.0]
+    rotate_xyz_deg: [-90.0, 0.0, 0.0]
+  cam_angled:
+    translate: [2.35, 1.75, 1.85]
+    rotate_xyz_deg: [-35.0, 40.0, 0.0]
+
+# Default spawn poses for prototype residuals (CLEAR = invisible).
+residual_spawns:
+  bottle: [0.4, 0.98, 0.05]
+  vial: [-0.3, 0.95, -0.08]
+  carton: [1.35, 1.02, 0.12]
+  label: [0.1, 0.92, 0.16]
+  cap: [-0.55, 0.93, 0.10]
+  tray: [-1.5, 0.95, 0.9]
+  tool: [1.55, 0.98, 0.55]
+  document: [-2.2, 0.82, -1.15]
+  unidentified_container: [-2.55, 1.05, -1.35]
+  packaging_component: [1.85, 0.95, 0.85]

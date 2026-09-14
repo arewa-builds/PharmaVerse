@@ -1,0 +1,18 @@
+{
+  "collider": null,
+  "expected_state": "CLEAR",
+  "marble": {},
+  "prims": {
+    "cameras": [
+      "/World/Cameras/cam_overhead",
+      "/World/Cameras/cam_angled"
+    ],
+    "ground": "/World/GroundPlane",
+    "marble": "/World/Marble",
+    "residuals": "/World/Residuals",
+    "world": "/World",
+    "zones": "/World/Zones"
+  },
+  "splat": null,
+  "stage": "worlds/usd/environment_v1/environment_v1.usda"
+}

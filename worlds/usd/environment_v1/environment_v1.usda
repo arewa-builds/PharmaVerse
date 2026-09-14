@@ -1,0 +1,432 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1.0
+    upAxis = "Y"
+    doc = "PharmaVerse Environment V1 — OpenUSD packaging cell for line-clearance simulation"
+)
+
+def Xform "World"
+{
+    custom string pharmaverse:stageId = "environment_v1"
+    custom string pharmaverse:experiment = "line_clearance_01"
+    custom string pharmaverse:expectedState = "CLEAR"
+
+    def Xform "Marble"
+    {
+        custom string pharmaverse:worldId = ""
+        custom double pharmaverse:metricScaleFactor = 1
+        custom double pharmaverse:groundPlaneOffset = 0
+        custom string pharmaverse:coordinateNote = "Marble OpenCV (+x left, +y down, +z forward). Collider rotateXYZ -90 X for Isaac Sim."
+        double3 xformOp:translate = (0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:scale", "xformOp:translate"]
+        def Xform "Splat"
+        {
+            custom string pharmaverse:role = "gaussian_splat"
+            custom string pharmaverse:status = "pending_nurec_conversion"
+        }
+        def Xform "Collider" (
+            prepend apiSchemas = ["PhysicsCollisionAPI"]
+        )
+        {
+            custom string pharmaverse:status = "pending_collider_mesh"
+            custom string pharmaverse:role = "collider"
+            bool physics:collisionEnabled = 1
+            token visibility = "invisible"
+            float3 xformOp:rotateXYZ = (-90, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:rotateXYZ"]
+        }
+    }
+
+    def Cube "GroundPlane" (
+        prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI"]
+    )
+    {
+        token semantic:Semantics:params:semanticType = "class"
+        string semantic:Semantics:params:semanticData = "floor"
+        custom string pharmaverse:semanticClass = "floor"
+        double size = 1
+        color3f[] primvars:displayColor = [(0.34, 0.35, 0.38)]
+        double3 xformOp:translate = (0, -0.01, 0)
+        float3 xformOp:scale = (12, 0.02, 8)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+        bool physics:collisionEnabled = 1
+    }
+
+    def Cube "ReferenceMeterCube"
+    {
+        double size = 1
+        color3f[] primvars:displayColor = [(0.9, 0.2, 0.2)]
+        double3 xformOp:translate = (4.5, 0.5, 3)
+        float3 xformOp:scale = (1, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+
+    def Xform "Lights"
+    {
+        def DomeLight "Sky"
+        {
+            float inputs:intensity = 1200
+            color3f inputs:color = (1, 1, 1)
+        }
+        def DistantLight "Key"
+        {
+            float inputs:intensity = 300
+            float3 xformOp:rotateXYZ = (-45, 30, 0)
+            uniform token[] xformOpOrder = ["xformOp:rotateXYZ"]
+        }
+    }
+
+    def Xform "Equipment"
+    {
+        def Cube "Conveyor" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "conveyor"
+            custom string pharmaverse:semanticClass = "conveyor"
+            double size = 1
+            color3f[] primvars:displayColor = [(0.55, 0.58, 0.62)]
+            double3 xformOp:translate = (0, 0.85, 0)
+            float3 xformOp:scale = (4, 0.12, 0.45)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+        }
+
+        def Cube "PackagingStation" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "packaging_station"
+            custom string pharmaverse:semanticClass = "packaging_station"
+            double size = 1
+            color3f[] primvars:displayColor = [(0.72, 0.74, 0.76)]
+            double3 xformOp:translate = (-1.6, 0.45, 0.9)
+            float3 xformOp:scale = (1.4, 0.9, 0.9)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+        }
+
+        def Cube "InspectionStation" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "inspection_station"
+            custom string pharmaverse:semanticClass = "inspection_station"
+            double size = 1
+            color3f[] primvars:displayColor = [(0.7, 0.73, 0.75)]
+            double3 xformOp:translate = (1.7, 0.45, 0.9)
+            float3 xformOp:scale = (1.1, 0.9, 0.8)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+        }
+
+        def Cube "StagingTable" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "staging_area"
+            custom string pharmaverse:semanticClass = "staging_area"
+            double size = 1
+            color3f[] primvars:displayColor = [(0.62, 0.55, 0.48)]
+            double3 xformOp:translate = (-2.4, 0.4, -1.4)
+            float3 xformOp:scale = (1.2, 0.8, 0.8)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+        }
+
+    }
+
+    def Xform "Zones"
+    {
+        def Cube "packaging_station_01"
+        {
+            double size = 1
+            color3f[] primvars:displayColor = [(0.2, 0.6, 0.9)]
+            token visibility = "invisible"
+            uniform token purpose = "guide"
+            double3 xformOp:translate = (-1.6, 1.1, 0.9)
+            float3 xformOp:scale = (1.8, 2.2, 1.6)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            custom string pharmaverse:displayName = "Packaging Station 01"
+            custom string pharmaverse:expectedStateWhenClear = "empty_of_detection_classes"
+        }
+
+        def Cube "conveyor_infeed"
+        {
+            double size = 1
+            color3f[] primvars:displayColor = [(0.2, 0.6, 0.9)]
+            token visibility = "invisible"
+            uniform token purpose = "guide"
+            double3 xformOp:translate = (-1.5, 1.1, 0)
+            float3 xformOp:scale = (1.2, 1.8, 0.9)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            custom string pharmaverse:displayName = "Conveyor infeed"
+            custom string pharmaverse:expectedStateWhenClear = "empty_of_detection_classes"
+        }
+
+        def Cube "conveyor_exit"
+        {
+            double size = 1
+            color3f[] primvars:displayColor = [(0.2, 0.6, 0.9)]
+            token visibility = "invisible"
+            uniform token purpose = "guide"
+            double3 xformOp:translate = (1.5, 1.1, 0)
+            float3 xformOp:scale = (1.2, 1.8, 0.9)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            custom string pharmaverse:displayName = "Conveyor exit"
+            custom string pharmaverse:expectedStateWhenClear = "empty_of_detection_classes"
+        }
+
+        def Cube "inspection_station_01"
+        {
+            double size = 1
+            color3f[] primvars:displayColor = [(0.2, 0.6, 0.9)]
+            token visibility = "invisible"
+            uniform token purpose = "guide"
+            double3 xformOp:translate = (1.7, 1.1, 0.9)
+            float3 xformOp:scale = (1.4, 2, 1.4)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            custom string pharmaverse:displayName = "Inspection Station 01"
+            custom string pharmaverse:expectedStateWhenClear = "empty_of_detection_classes"
+        }
+
+        def Cube "material_staging"
+        {
+            double size = 1
+            color3f[] primvars:displayColor = [(0.2, 0.6, 0.9)]
+            token visibility = "invisible"
+            uniform token purpose = "guide"
+            double3 xformOp:translate = (-2.4, 1, -1.4)
+            float3 xformOp:scale = (1.6, 2, 1.4)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            custom string pharmaverse:displayName = "Material staging"
+            custom string pharmaverse:expectedStateWhenClear = "empty_of_detection_classes"
+        }
+
+    }
+
+    def Xform "Residuals"
+    {
+        custom string pharmaverse:role = "spawnable_detection_targets"
+        def Cube "Bottle" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI", "PhysicsRigidBodyAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "bottle"
+            custom string pharmaverse:semanticClass = "bottle"
+            double size = 1
+            token visibility = "invisible"
+            double3 xformOp:translate = (0.4, 0.98, 0.05)
+            float3 xformOp:scale = (0.04, 0.04, 0.12)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            custom int pharmaverse:classId = 0
+            custom int pharmaverse:cocoId = 1
+        }
+
+        def Cube "Vial" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI", "PhysicsRigidBodyAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "vial"
+            custom string pharmaverse:semanticClass = "vial"
+            double size = 1
+            token visibility = "invisible"
+            double3 xformOp:translate = (-0.3, 0.95, -0.08)
+            float3 xformOp:scale = (0.02, 0.02, 0.05)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            custom int pharmaverse:classId = 1
+            custom int pharmaverse:cocoId = 2
+        }
+
+        def Cube "Carton" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI", "PhysicsRigidBodyAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "carton"
+            custom string pharmaverse:semanticClass = "carton"
+            double size = 1
+            token visibility = "invisible"
+            double3 xformOp:translate = (1.35, 1.02, 0.12)
+            float3 xformOp:scale = (0.12, 0.08, 0.12)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            custom int pharmaverse:classId = 2
+            custom int pharmaverse:cocoId = 3
+        }
+
+        def Cube "Label" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI", "PhysicsRigidBodyAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "label"
+            custom string pharmaverse:semanticClass = "label"
+            double size = 1
+            token visibility = "invisible"
+            double3 xformOp:translate = (0.1, 0.92, 0.16)
+            float3 xformOp:scale = (0.08, 0.05, 0.001)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            custom int pharmaverse:classId = 3
+            custom int pharmaverse:cocoId = 4
+        }
+
+        def Cube "Cap" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI", "PhysicsRigidBodyAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "cap"
+            custom string pharmaverse:semanticClass = "cap"
+            double size = 1
+            token visibility = "invisible"
+            double3 xformOp:translate = (-0.55, 0.93, 0.1)
+            float3 xformOp:scale = (0.03, 0.03, 0.02)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            custom int pharmaverse:classId = 4
+            custom int pharmaverse:cocoId = 5
+        }
+
+        def Cube "Tray" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI", "PhysicsRigidBodyAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "tray"
+            custom string pharmaverse:semanticClass = "tray"
+            double size = 1
+            token visibility = "invisible"
+            double3 xformOp:translate = (-1.5, 0.95, 0.9)
+            float3 xformOp:scale = (0.3, 0.2, 0.05)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            custom int pharmaverse:classId = 5
+            custom int pharmaverse:cocoId = 6
+        }
+
+        def Cube "Tool" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI", "PhysicsRigidBodyAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "tool"
+            custom string pharmaverse:semanticClass = "tool"
+            double size = 1
+            token visibility = "invisible"
+            double3 xformOp:translate = (1.55, 0.98, 0.55)
+            float3 xformOp:scale = (0.2, 0.04, 0.03)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            custom int pharmaverse:classId = 6
+            custom int pharmaverse:cocoId = 7
+        }
+
+        def Cube "Document" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI", "PhysicsRigidBodyAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "document"
+            custom string pharmaverse:semanticClass = "document"
+            double size = 1
+            token visibility = "invisible"
+            double3 xformOp:translate = (-2.2, 0.82, -1.15)
+            float3 xformOp:scale = (0.21, 0.3, 0.002)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            custom int pharmaverse:classId = 7
+            custom int pharmaverse:cocoId = 8
+        }
+
+        def Cube "UnidentifiedContainer" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI", "PhysicsRigidBodyAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "unidentified_container"
+            custom string pharmaverse:semanticClass = "unidentified_container"
+            double size = 1
+            token visibility = "invisible"
+            double3 xformOp:translate = (-2.55, 1.05, -1.35)
+            float3 xformOp:scale = (0.15, 0.15, 0.2)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            custom int pharmaverse:classId = 8
+            custom int pharmaverse:cocoId = 9
+        }
+
+        def Cube "PackagingComponent" (
+            prepend apiSchemas = ["SemanticsAPI:Semantics", "PhysicsCollisionAPI", "PhysicsRigidBodyAPI"]
+        )
+        {
+            token semantic:Semantics:params:semanticType = "class"
+            string semantic:Semantics:params:semanticData = "packaging_component"
+            custom string pharmaverse:semanticClass = "packaging_component"
+            double size = 1
+            token visibility = "invisible"
+            double3 xformOp:translate = (1.85, 0.95, 0.85)
+            float3 xformOp:scale = (0.1, 0.08, 0.02)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+            bool physics:collisionEnabled = 1
+            bool physics:rigidBodyEnabled = 1
+            custom int pharmaverse:classId = 9
+            custom int pharmaverse:cocoId = 10
+        }
+
+    }
+
+    def Xform "Cameras"
+    {
+        def Camera "cam_overhead"
+        {
+            custom string pharmaverse:displayName = "Overhead packaging camera"
+            custom string pharmaverse:role = "coverage"
+            custom string pharmaverse:targetZone = "packaging_station_01"
+            custom int[] pharmaverse:resolution = [1920, 1080]
+            token projection = "perspective"
+            float focalLength = 14.9634
+            float horizontalAperture = 20.955
+            float2 clippingRange = (0.05, 20)
+            double3 xformOp:translate = (0, 3.15, 0)
+            float3 xformOp:rotateXYZ = (-90, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ"]
+        }
+
+        def Camera "cam_angled"
+        {
+            custom string pharmaverse:displayName = "Angled inspection camera"
+            custom string pharmaverse:role = "inspection"
+            custom string pharmaverse:targetZone = "conveyor_exit"
+            custom int[] pharmaverse:resolution = [1920, 1080]
+            token projection = "perspective"
+            float focalLength = 20.1271
+            float horizontalAperture = 20.955
+            float2 clippingRange = (0.05, 20)
+            double3 xformOp:translate = (2.35, 1.75, 1.85)
+            float3 xformOp:rotateXYZ = (-35, 40, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ"]
+        }
+
+    }
+}

@@ -809,6 +809,10 @@ Convert Marble splat output toward USD using the Omniverse NuRec / Gaussian-spla
 
 **PharmaVerse Environment V1**
 
+Composed OpenUSD: [`worlds/usd/environment_v1/environment_v1.usda`](worlds/usd/environment_v1/environment_v1.usda).  
+Composer / NuRec wrapper: `python -m pharmaverse.usd compose`.  
+Runbook: [`docs/phase-3-openusd.md`](docs/phase-3-openusd.md).
+
 ---
 
 ## Phase 4: Isaac Sim Integration
