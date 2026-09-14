@@ -12,6 +12,9 @@ This is a research, simulation, and engineering prototype. It is **not** a valid
 
 The full objectives and execution plan live in [`project_description.txt`](./project_description.txt).
 
+**Current phase: 1 — Research and architecture (complete).**  
+The Phase 1 deliverable is [`docs/system-design.md`](./docs/system-design.md). Next is Phase 2: generate the first Marble packaging world.
+
 ---
 
 ## Research questions
@@ -83,8 +86,8 @@ Marble is generally available and the World API is public. Atlas is entering ear
 
 ### First implementation phases
 
-1. Research and architecture
-2. **World Labs Marble world generation**
+1. Research and architecture — **done** ([`docs/system-design.md`](./docs/system-design.md))
+2. **World Labs Marble world generation** ← next
 3. OpenUSD conversion and environment prototype
 4. Isaac Sim integration
 5. Synthetic data pipeline
@@ -122,12 +125,19 @@ Demo loop: cleared station → residual object appears → camera observes it �
 
 ## Repository status
 
-This repository currently contains the research plan. Implementation has not started.
+Phase 1 is complete. Implementation of Marble world generation has not started.
 
 ```text
 PharmaVerse/
 ├── README.md
-└── project_description.txt
+├── project_description.txt
+├── docs/system-design.md
+├── config/
+│   ├── taxonomy.yaml
+│   ├── cameras.yaml
+│   ├── evaluation.yaml
+│   └── marble/packaging_suite_v1.yaml
+└── .env.example
 ```
 
 Intended later layout:

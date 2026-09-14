@@ -1,0 +1,57 @@
+# PharmaVerse virtual cameras v1
+# Two fixed RGB cameras. Depth is captured for research/debug but is not
+# required by the V1 detection model.
+
+version: 1
+experiment: line_clearance_01
+
+defaults:
+  sensor_type: rgb
+  resolution: [1920, 1080]
+  clipping_range_m: [0.05, 20.0]
+  projection: perspective
+
+cameras:
+  - id: cam_overhead
+    display_name: Overhead packaging camera
+    role: coverage
+    mount: fixed
+    resolution: [1920, 1080]
+    horizontal_fov_deg: 70
+    target_zone: packaging_station_01
+    pose_notes: >
+      Downward-facing above the packaging station and conveyor. Height should
+      keep bottles and cartons larger than ~20 px on the image plane.
+    capture:
+      rgb: true
+      depth: true
+      bounding_box_2d_tight: true
+      semantic_segmentation: true
+      instance_segmentation: true
+      camera_params: true
+      occlusion: true
+
+  - id: cam_angled
+    display_name: Angled inspection camera
+    role: inspection
+    mount: fixed
+    resolution: [1920, 1080]
+    horizontal_fov_deg: 55
+    target_zone: conveyor_exit
+    pose_notes: >
+      Oblique view of the conveyor exit / station edge, approximately 35-45
+      degrees from horizontal, to catch residuals missed by the overhead camera.
+    capture:
+      rgb: true
+      depth: true
+      bounding_box_2d_tight: true
+      semantic_segmentation: true
+      instance_segmentation: true
+      camera_params: true
+      occlusion: true
+
+future:
+  - stereo
+  - lidar
+  - robot_mounted
+  - mobile_inspection

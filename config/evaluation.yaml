@@ -1,0 +1,64 @@
+# PharmaVerse evaluation protocol v1
+# Used by Experiment 01 (synthetic line clearance) and later Sim2Real.
+
+version: 1
+experiment: line_clearance_01
+
+confidence_threshold: 0.50
+iou_threshold_primary: 0.50
+iou_thresholds_map: [0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
+min_box_area_px: 16
+
+splits:
+  synthetic:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+  real:
+    # Held out. Used only in Phase 9 Sim2Real.
+    test: 1.00
+
+object_detection_metrics:
+  - mAP_50
+  - mAP_50_95
+  - precision
+  - recall
+  - f1
+  - per_class_ap
+  - false_positive_rate
+  - false_negative_rate
+
+line_clearance_metrics:
+  # Scene-level: would a reviewer be asked to look?
+  - discrepancy_recall        # residual present AND flagged REVIEW REQUIRED
+  - discrepancy_precision     # flagged scenes that truly contain a residual
+  - clear_scene_specificity   # CLEAR scenes not flagged
+  - missed_residual_rate      # residual present AND not flagged
+  - residual_localization_iou
+
+difficulty_levels:
+  1:
+    name: obvious_residual
+    notes: Large object, fully visible, well lit, center of frame.
+  2:
+    name: small_object
+    notes: Vial, cap, or folded label; still unoccluded.
+  3:
+    name: partial_occlusion
+    notes: 30-70% of the instance hidden by equipment.
+  4:
+    name: similar_looking
+    notes: Residual similar in color/shape to allowed equipment.
+  5:
+    name: difficult_lighting_or_position
+    notes: Edge of FOV, harsh shadow, glare, or extreme camera angle.
+
+sim2real_models:
+  A: real_only
+  B: synthetic_only
+  C: synthetic_pretrain_real_finetune
+
+latency:
+  report_p50_ms: true
+  report_p95_ms: true
+  hardware_note: Record GPU/CPU at evaluation time.
