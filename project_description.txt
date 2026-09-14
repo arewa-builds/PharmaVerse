@@ -8,7 +8,15 @@
 
 The project will create a virtual pharmaceutical manufacturing environment that can be used to simulate manufacturing scenarios that would otherwise require access to physical production equipment, dedicated laboratory space, manufacturing facilities, or large manually annotated datasets.
 
-PharmaVerse will explore the use of **World Labs world-generation technology, NVIDIA Omniverse/OpenUSD, NVIDIA Isaac Sim, computer vision, and machine learning** to create controllable virtual environments in which AI systems can be trained, evaluated, and stress-tested before potential interaction with physical environments.
+**World Labs is a defining technology of PharmaVerse, not an optional environment-generation tool.**
+
+The practical system that can be built today is:
+
+**World Labs Marble / World API → OpenUSD → NVIDIA Omniverse / Isaac Sim → synthetic data → computer vision → Sim2Real → Physical AI**
+
+PharmaVerse will use **World Labs Marble and the public World API** as the core world-generation layer, then use **NVIDIA Omniverse/OpenUSD and NVIDIA Isaac Sim** as the controlled simulation layer. Computer vision, synthetic data generation, and Physical AI experiments are built on top of that stack.
+
+Atlas, World Labs' next-generation omni world model, is **not generally available** at the time of this plan. World Labs describes Atlas as entering early access with select partners, and Marble remains the generally available product with a public World API. PharmaVerse is therefore designed to **start on Marble now** and **adopt Atlas later** without changing the rest of the architecture.
 
 The project is intended as a **research, simulation, and engineering prototype**. It is not intended to represent a validated GMP manufacturing system or replace qualified pharmaceutical manufacturing, quality, safety, or regulatory processes.
 
@@ -20,6 +28,10 @@ The primary research question is:
 
 > **Can generative world models and physics-based simulation be combined to create useful pharmaceutical manufacturing environments for generating synthetic computer vision data, evaluating AI inspection systems, and developing Physical AI applications?**
 
+That question now has an explicit technology form:
+
+> **Can World Labs Marble generate pharmaceutical manufacturing worlds that NVIDIA Omniverse and Isaac Sim can turn into simulation-ready environments for synthetic inspection data and Physical AI research?**
+
 A secondary research question will investigate Sim2Real performance:
 
 > **Can computer vision models trained primarily or partially on synthetic pharmaceutical manufacturing data generalize to real-world imagery?**
@@ -28,10 +40,108 @@ These questions make PharmaVerse more than a digital visualization project. The 
 
 ---
 
-# 3. Primary Project Objective
+# 3. Core Architecture: World Labs Generates the World, NVIDIA Simulates It
+
+PharmaVerse adapts an existing **World Labs → NVIDIA simulation pattern** to pharmaceutical manufacturing.
+
+The stack is:
+
+**World Labs Marble / World API**
+→ Generate the pharmaceutical manufacturing world
+
+**Marble 3D World**
+→ Export world as 3D assets (Gaussian splats, meshes, collider meshes)
+
+**OpenUSD conversion / preparation**
+→ Make the generated environment simulation-ready
+
+**NVIDIA Omniverse + Isaac Sim**
+→ Add physics, SimReady equipment, sensors, cameras, and controllable objects
+
+**Synthetic Data Generation**
+→ RGB + bounding boxes + segmentation + depth + ground truth
+
+**Computer Vision Model**
+→ Train pharmaceutical inspection models
+
+**Sim2Real Evaluation**
+→ Test against real imagery
+
+**Physical AI**
+→ Eventually introduce an autonomous inspection robot
+
+This is not a speculative pipeline. World Labs published a case study with Lightwheel that demonstrated essentially this workflow:
+
+**Real-world input → Marble → 3D Gaussian Splat → NVIDIA Omniverse NuRec → USD → NVIDIA Isaac Sim → SimReady assets → robots/sensors/tasks → simulation/evaluation.**
+
+NVIDIA has also documented the same Marble-to-Isaac-Sim path: export Marble Gaussian splats (PLY) and a collider mesh (GLB), convert the splat to USD with Omniverse NuRec, import into Isaac Sim, then add robots, physics, and sensors.
+
+PharmaVerse applies that pattern to pharmaceutical manufacturing instead of a general robotics test location. A representative Marble generation target is:
+
+> *A modern pharmaceutical packaging suite with stainless-steel equipment, a packaging conveyor, inspection stations, pharmaceutical bottles, cartons, material staging areas and controlled manufacturing architecture.*
+
+Marble can create worlds from **text, images, video, panoramas, multi-image input, or coarse 3D layouts**. It can export Gaussian splats and triangle meshes, including collider meshes intended for coarse physics simulation. The World API makes those generations programmable, which is required for world-level variation and later domain randomization.
+
+---
+
+# 4. Separated Responsibilities: World Labs vs NVIDIA vs PharmaVerse
+
+Marble should not be expected to generate a perfectly engineered pharmaceutical production line with exact physics and semantic labels. Its role is spatial/world generation. Isaac Sim is the controlled simulation layer.
+
+| Platform                 | PharmaVerse responsibility                    |
+| ------------------------ | --------------------------------------------- |
+| **World Labs Marble**    | Generate/reconstruct the pharmaceutical world |
+| **World API**            | Programmatically generate world variations    |
+| **Marble Chisel**        | Control coarse 3D layout                      |
+| **Marble Export**        | Splat/mesh output                             |
+| **Omniverse / OpenUSD**  | Structure the simulation environment          |
+| **Isaac Sim**            | Physics, sensors, cameras, robots             |
+| **Synthetic Data tools** | Generate labeled CV datasets                  |
+| **PyTorch/CV models**    | Train inspection models                       |
+| **PharmaVerse**          | Orchestrate the complete research platform    |
+
+This split is the architectural rule of the project:
+
+* **Marble creates the world layer** — layout, appearance, spatial structure, and exportable geometry.
+* **Isaac Sim creates the control layer** — physics, SimReady equipment, semantic labels, cameras, objects that can be spawned or moved, and inspection tasks.
+* **PharmaVerse creates the research layer** — synthetic data, CV training, evaluation, Sim2Real, and later Physical AI.
+
+---
+
+# 5. Technology Roadmap: Marble Now, Atlas Later
+
+## PharmaVerse V1
+
+**World Labs Marble + World API → Omniverse/OpenUSD → Isaac Sim → Synthetic Data → CV**
+
+This is the version that can be built today.
+
+* Marble is generally available at [marble.worldlabs.ai](https://marble.worldlabs.ai/).
+* The World API is public at [docs.worldlabs.ai/api](https://docs.worldlabs.ai/api).
+* The Marble → NuRec → Isaac Sim path is already documented by World Labs and NVIDIA.
+
+## PharmaVerse Future
+
+**World Labs Atlas → richer world modeling/simulation → Omniverse/Isaac Sim → Physical AI**
+
+Atlas is World Labs' omni world model. World Labs describes it as operating across text, images, camera poses, depth, and video, and as being designed around generation, reconstruction, and simulation of worlds. Atlas is also described as powering future versions of Marble.
+
+Atlas is **not** the V1 dependency because it is not generally available:
+
+* World Labs: **"Atlas is entering early access with select partners."**
+* Marble pricing currently presents Atlas as upcoming: **"Request access to Atlas. Coming to Marble soon."**
+
+This is better for the project than waiting. PharmaVerse can start building on Marble without Atlas access, while the architecture is explicitly designed to adopt Atlas later as a richer world-modeling and simulation backend.
+
+---
+
+# 6. Primary Project Objective
 
 The primary objective of PharmaVerse is to develop a reusable virtual pharmaceutical manufacturing environment capable of supporting:
 
+* World Labs Marble world generation
+* Programmatic world variation through the World API
+* Simulation-ready OpenUSD conversion
 * Synthetic computer vision dataset generation
 * Automated ground-truth annotation
 * Manufacturing scenario simulation
@@ -44,9 +154,13 @@ The primary objective of PharmaVerse is to develop a reusable virtual pharmaceut
 * Autonomous inspection research
 * Physical AI experimentation
 
-The high-level architecture will be:
+The high-level architecture is:
 
-**World Generation / 3D Assets**
+**World Labs Marble / World API**
+
+↓
+
+**Marble 3D World (splats + meshes)**
 
 ↓
 
@@ -82,13 +196,74 @@ The high-level architecture will be:
 
 ---
 
-# 4. Objective: Build a Virtual Pharmaceutical Manufacturing Environment
+# 7. Objective: World Generation with World Labs
 
-The first technical objective is to create a realistic virtual pharmaceutical manufacturing environment.
+The first major technical objective is **world generation with World Labs Marble**.
 
-The environment does not need to reproduce a specific commercial pharmaceutical facility. Instead, it should represent a plausible research environment containing common manufacturing and packaging elements.
+This is the defining first layer of PharmaVerse. The project does not begin by hand-modeling a pharmaceutical room, and it does not treat Marble as a convenience for concept art. Marble is the world-generation engine.
 
-Potential assets include:
+The V1 world-generation workflow is:
+
+**Prompt / image / video / panorama / Chisel layout**
+
+→ **Marble world generation**
+
+→ **World editing / expansion as needed**
+
+→ **Export Gaussian splats and meshes**
+
+→ **Hand off to OpenUSD / Isaac Sim**
+
+### Marble inputs
+
+Marble can generate pharmaceutical worlds from:
+
+* Text prompts
+* Single images
+* Multi-image input
+* Video
+* Panoramas / 360 captures
+* Coarse 3D layouts through **Marble Chisel**
+
+Chisel is the layout-control tool. It lets PharmaVerse specify a coarse 3D structure — for example a packaging room, conveyor line, inspection station, and staging area — while Marble supplies visual style and spatial detail. Structure and appearance can be separated: the same Chisel layout can yield multiple visual variants.
+
+### World API
+
+The World API is how PharmaVerse generates worlds programmatically rather than only through the Marble UI.
+
+This matters because later experiments require many related environments, not one beautiful scene. The API can be used to:
+
+* Generate a packaging-suite family from a shared prompt template
+* Vary seeds and prompts for world-level domain randomization
+* Produce digital cousins of a pharmaceutical area instead of one exact digital twin
+* Drive repeatable generation as part of the PharmaVerse pipeline
+
+World API generation is asynchronous: a generate request returns an operation, which is polled until the world is available.
+
+### Marble exports
+
+Marble worlds are useful to PharmaVerse only if they can leave Marble.
+
+Primary exports:
+
+* **Gaussian splats** — highest-fidelity visual representation of the generated world (PLY / SPZ)
+* **Collider meshes** — low-fidelity triangle meshes intended for coarse physics simulation (GLB)
+* **High-quality meshes** — higher-fidelity triangle meshes for interchange with standard 3D tools (GLB)
+
+Gaussian splats carry appearance. Collider meshes carry coarse occupancy. Exact equipment physics, semantic labels, spawnable objects, and camera calibration are added later in Omniverse / Isaac Sim.
+
+### What success looks like for this objective
+
+A successful Marble phase produces:
+
+* One or more navigable pharmaceutical packaging worlds
+* Prompt and seed records for reproducibility
+* Exported splat and mesh assets
+* A documented generation recipe that the rest of the pipeline can repeat
+
+The environment does not need to reproduce a specific commercial pharmaceutical facility. It should represent a plausible research environment containing common manufacturing and packaging elements, generated by Marble and then engineered for simulation.
+
+Potential scene contents include:
 
 * Conveyor systems
 * Packaging stations
@@ -108,17 +283,15 @@ Potential assets include:
 * Operators
 * Mobile inspection platforms
 
-World-generation tools may be used to accelerate environmental creation and spatial design, while OpenUSD assets will provide structured objects suitable for simulation.
-
-The objective is to create an environment that is not simply visually convincing but also **machine-readable and simulation-ready**.
+The objective is to create an environment that is not simply visually convincing but also **exportable, machine-readable, and ready for simulation preparation**.
 
 ---
 
-# 5. Objective: Develop a Simulation-Ready OpenUSD Digital Twin
+# 8. Objective: Develop a Simulation-Ready OpenUSD Digital Twin
 
-The virtual environment will be prepared as an OpenUSD-based digital twin.
+The Marble world is not yet a digital twin. After generation, the virtual environment will be prepared as an OpenUSD-based simulation environment.
 
-Individual assets should contain appropriate information such as:
+Individual assets and scene elements should contain appropriate information such as:
 
 **Object identity**
 
@@ -138,29 +311,33 @@ Individual assets should contain appropriate information such as:
 
 This distinction is critical.
 
-A visually generated 3D environment may look like a pharmaceutical facility but still require engineering before it becomes useful for simulation.
+A Marble-generated 3D world may look like a pharmaceutical facility but still require engineering before it becomes useful for simulation. Marble supplies spatial structure and appearance. OpenUSD and Isaac Sim supply simulation semantics.
 
-PharmaVerse will therefore investigate the workflow:
+PharmaVerse will therefore use the workflow:
 
-**Generated World**
+**World Labs Marble World**
 
-→ **3D Asset Extraction**
+→ **Splat / Mesh Export**
+
+→ **NVIDIA Omniverse NuRec / USD Conversion**
 
 → **Geometry Cleanup**
-
-→ **OpenUSD Conversion**
 
 → **Semantic Labeling**
 
 → **Physics Configuration**
 
+→ **SimReady Equipment and Controllable Objects**
+
 → **Simulation-Ready Environment**
+
+Controllable objects that must be spawned, moved, occluded, or counted — bottles, cartons, labels, tools, documents — should be authored or imported as SimReady / USD assets in Isaac Sim rather than left as baked Marble appearance. Marble provides the room and spatial context. Isaac Sim provides the objects the inspection model must see, miss, or misclassify.
 
 ---
 
-# 6. Objective: Create Virtual Computer Vision Sensors
+# 9. Objective: Create Virtual Computer Vision Sensors
 
-PharmaVerse will deploy virtual cameras throughout the simulated facility.
+PharmaVerse will deploy virtual cameras throughout the simulated facility in Isaac Sim.
 
 Initial sensor configurations may include:
 
@@ -191,7 +368,7 @@ This allows the project to investigate how **sensor placement affects computer v
 
 ---
 
-# 7. Objective: Generate Automatically Labeled Synthetic Data
+# 10. Objective: Generate Automatically Labeled Synthetic Data
 
 A major objective of PharmaVerse is to generate synthetic training datasets directly from the simulation.
 
@@ -227,13 +404,25 @@ simultaneously.
 
 ---
 
-# 8. Objective: Implement Domain Randomization
+# 11. Objective: Implement Domain Randomization
 
 One of the most important research components will be **domain randomization**.
 
-PharmaVerse will deliberately modify environmental conditions during synthetic dataset generation.
+PharmaVerse will deliberately modify conditions at two layers:
+
+1. **World layer (Marble / World API)** — generate related pharmaceutical worlds with different layout, materials, and appearance.
+2. **Simulation layer (Isaac Sim)** — vary lighting, cameras, object pose, occlusion, and spawned residuals inside a given world.
 
 Variables may include:
+
+### World generation
+
+* Prompt phrasing
+* Seed
+* Chisel layout
+* Visual style
+* Room proportions
+* Equipment arrangement implied by the generated world
 
 ### Lighting
 
@@ -272,7 +461,7 @@ Instead, the model should encounter a distribution of possible environments.
 
 ---
 
-# 9. First Demonstrator: Synthetic Line Clearance
+# 12. First Demonstrator: Synthetic Line Clearance
 
 The first PharmaVerse application will be:
 
@@ -280,7 +469,7 @@ The first PharmaVerse application will be:
 
 ### Synthetic Pharmaceutical Line Clearance
 
-A simulated packaging/manufacturing area will be configured with a known expected cleared state.
+A Marble-generated packaging/manufacturing area will be configured in Isaac Sim with a known expected cleared state.
 
 The simulation will then programmatically introduce deviations.
 
@@ -311,7 +500,7 @@ will be known.
 
 ---
 
-# 10. Develop the Line-Clearance Computer Vision Model
+# 13. Develop the Line-Clearance Computer Vision Model
 
 Synthetic data generated by PharmaVerse will be used to train an initial computer vision model.
 
@@ -367,7 +556,7 @@ The system should visually identify the object responsible for the finding.
 
 ---
 
-# 11. Sim2Real Research Objective
+# 14. Sim2Real Research Objective
 
 The most important experimental component of PharmaVerse will be determining whether synthetic data improves performance on real images.
 
@@ -404,7 +593,7 @@ Evaluation should include:
 
 ---
 
-# 12. Rare-Event and Edge-Case Simulation
+# 15. Rare-Event and Edge-Case Simulation
 
 A major advantage of PharmaVerse will be the ability to generate scenarios that are difficult to collect repeatedly in reality.
 
@@ -442,11 +631,11 @@ This converts PharmaVerse into an **AI testing environment**, not simply an AI t
 
 ---
 
-# 13. Physical AI Expansion
+# 16. Physical AI Expansion
 
 Once computer vision is functioning within the virtual facility, PharmaVerse can expand from passive inspection toward **Physical AI**.
 
-A simulated mobile robot could be introduced into Isaac Sim.
+A simulated mobile robot could be introduced into Isaac Sim, operating inside a Marble-generated pharmaceutical world.
 
 The robot could use:
 
@@ -497,9 +686,11 @@ The architecture would become:
 
 This would transform PharmaVerse from a synthetic-data project into a **Physical AI pharmaceutical manufacturing research platform**.
 
+Atlas, if and when access is available, is the natural upgrade for richer world modeling, reconstruction, and simulation in this phase. It is not required to begin Physical AI experiments in Isaac Sim.
+
 ---
 
-# 14. Potential Future PharmaVerse Experiments
+# 17. Potential Future PharmaVerse Experiments
 
 The architecture should support multiple independent research modules.
 
@@ -529,36 +720,68 @@ Combine observations from multiple cameras to build a unified understanding of m
 
 ---
 
-# 15. Potential Execution Plan
+# 18. Potential Execution Plan
 
 ## Phase 1: Research and Architecture
-
-**Estimated duration: 1–2 weeks**
 
 Define:
 
 * Research question
 * Primary PharmaVerse use case
+* World Labs Marble / World API integration
+* Marble vs Isaac Sim responsibility split
 * Software architecture
 * Simulation requirements
 * Object taxonomy
 * Sensor requirements
 * Dataset requirements
 * Evaluation metrics
+* Atlas adoption criteria for a later phase
 
 **Deliverable:**
 
 **PharmaVerse System Design and Research Plan**
 
+This document is the starting point for that deliverable.
+
 ---
 
-## Phase 2: Environment Prototype
+## Phase 2: World Labs Marble World Generation
 
-**Estimated duration: 2–3 weeks**
+This phase is required before OpenUSD conversion and Isaac Sim integration. It is the first implementation phase of PharmaVerse.
 
-Create a simplified pharmaceutical packaging environment.
+Use Marble and the World API to generate the initial pharmaceutical manufacturing world.
 
-Do not initially attempt to build an entire facility.
+Do not initially attempt to generate an entire factory.
+
+Start with:
+
+**One packaging suite / room**
+
+generated from a prompt such as:
+
+> A modern pharmaceutical packaging suite with stainless-steel equipment, a packaging conveyor, inspection stations, pharmaceutical bottles, cartons, material staging areas and controlled manufacturing architecture.
+
+Work to complete in this phase:
+
+* Establish Marble access and World API credentials
+* Write and iterate pharmaceutical world prompts
+* Optionally use Chisel to lock a coarse packaging-line layout
+* Generate a small family of world variants via the World API
+* Export Gaussian splats and collider meshes
+* Record prompts, seeds, model versions, and export settings
+
+**Deliverable:**
+
+**PharmaVerse Marble World V1**
+
+Exported splat/mesh assets plus a reproducible generation recipe.
+
+---
+
+## Phase 3: OpenUSD Conversion and Environment Prototype
+
+Convert the Marble world into a structured OpenUSD pharmaceutical environment.
 
 Start with:
 
@@ -576,15 +799,15 @@ For example:
 
 Establish the OpenUSD hierarchy and semantic object labels.
 
+Convert Marble splat output toward USD using the Omniverse NuRec / Gaussian-splat interchange path. Align collider meshes with the visual world. Add or replace inspection-relevant objects as controllable USD assets.
+
 **Deliverable:**
 
 **PharmaVerse Environment V1**
 
 ---
 
-## Phase 3: Isaac Sim Integration
-
-**Estimated duration: 1–2 weeks**
+## Phase 4: Isaac Sim Integration
 
 Import the environment into Isaac Sim.
 
@@ -596,6 +819,8 @@ Configure:
 * Lighting
 * Cameras
 * Semantic labels
+* SimReady equipment where useful
+* Spawnable residual objects for line-clearance scenarios
 
 Validate that the environment behaves consistently.
 
@@ -605,9 +830,7 @@ Validate that the environment behaves consistently.
 
 ---
 
-## Phase 4: Synthetic Data Pipeline
-
-**Estimated duration: 2 weeks**
+## Phase 5: Synthetic Data Pipeline
 
 Configure synthetic-data generation.
 
@@ -619,11 +842,18 @@ Produce:
 * Object labels
 * Depth data where useful
 * Scene metadata
+* Marble world IDs / prompt provenance for each scene
 
 Develop an automated folder structure such as:
 
 ```text
 pharmaverse/
+├── worlds/
+│   ├── marble/
+│   │   ├── prompts/
+│   │   ├── exports/
+│   │   └── metadata/
+│   └── usd/
 ├── scenes/
 ├── synthetic_data/
 │   ├── images/
@@ -642,12 +872,11 @@ First automatically generated and labeled PharmaVerse dataset.
 
 ---
 
-## Phase 5: Domain Randomization
-
-**Estimated duration: 1–2 weeks**
+## Phase 6: Domain Randomization
 
 Programmatically vary:
 
+* Marble world generation (prompt, seed, layout)
 * Object placement
 * Lighting
 * Camera angles
@@ -669,9 +898,7 @@ rather than immediately attempting hundreds of thousands.
 
 ---
 
-## Phase 6: Baseline Computer Vision Model
-
-**Estimated duration: 1–2 weeks**
+## Phase 7: Baseline Computer Vision Model
 
 Train a baseline detection/segmentation model.
 
@@ -691,9 +918,7 @@ Analyze failures visually.
 
 ---
 
-## Phase 7: Synthetic Line-Clearance Experiment
-
-**Estimated duration: 2 weeks**
+## Phase 8: Synthetic Line-Clearance Experiment
 
 Generate controlled line-clearance scenarios.
 
@@ -717,9 +942,7 @@ Evaluate model performance at each level.
 
 ---
 
-## Phase 8: Sim2Real Experiment
-
-**Estimated duration: 2–4 weeks**
+## Phase 9: Sim2Real Experiment
 
 Acquire a small real-world dataset from legally usable imagery or a compact controlled setup where feasible.
 
@@ -745,13 +968,12 @@ This should become one of the project's major research findings.
 
 ---
 
-## Phase 9: Visualization and Command Center
-
-**Estimated duration: 1–2 weeks**
+## Phase 10: Visualization and Command Center
 
 Create a PharmaVerse interface showing:
 
 * Virtual facility
+* Marble world provenance
 * Camera locations
 * Inspection zones
 * Detected objects
@@ -767,11 +989,11 @@ Create a PharmaVerse interface showing:
 
 ---
 
-## Phase 10: Physical AI Expansion
+## Phase 11: Physical AI Expansion and Atlas Adoption
 
 **Future phase**
 
-Introduce a simulated inspection robot.
+Introduce a simulated inspection robot in Isaac Sim, still using Marble-generated worlds as the spatial layer.
 
 Develop:
 
@@ -785,23 +1007,29 @@ Measure:
 * Mission completion time
 * Missed inspection areas
 
+Adopt **World Labs Atlas** if/when partner or product access exists, using it for richer generation, reconstruction, and simulation while keeping Omniverse / Isaac Sim as the robotics and sensor runtime.
+
 **Deliverable:**
 
 **PharmaVerse Autonomous Inspection Robot Prototype**
 
 ---
 
-# 16. Recommended MVP
+# 19. Recommended MVP
 
-The initial PharmaVerse MVP should remain deliberately small.
+The initial PharmaVerse MVP should remain deliberately small, but it must include World Labs Marble as the world source.
+
+### World generation
+
+One pharmaceutical packaging suite generated with **World Labs Marble**, with splat and mesh export.
 
 ### Environment
 
-One simulated pharmaceutical packaging room.
+That Marble world converted into one simulated pharmaceutical packaging room in OpenUSD / Isaac Sim.
 
 ### Assets
 
-Approximately 10–20 relevant object types.
+Approximately 10–20 relevant object types, authored as controllable simulation assets.
 
 ### Cameras
 
@@ -825,7 +1053,7 @@ Evaluate detection performance across normal, residual-object, occlusion, lighti
 
 ### Final MVP Demonstration
 
-The user launches a PharmaVerse simulation.
+The user launches a PharmaVerse simulation built from a Marble-generated packaging world.
 
 A packaging station initially appears cleared.
 
@@ -847,7 +1075,7 @@ The user can then change the lighting, object position, camera angle, or occlusi
 
 ---
 
-# 17. Long-Term Vision
+# 20. Long-Term Vision
 
 The long-term vision is for PharmaVerse to become a reusable **virtual AI proving ground for pharmaceutical manufacturing**.
 
@@ -855,9 +1083,9 @@ Rather than requiring every new AI concept to begin with physical hardware, manu
 
 The progression becomes:
 
-**Generate**
+**Generate with World Labs**
 
-→ **Simulate**
+→ **Simulate in Omniverse / Isaac Sim**
 
 → **Train**
 
@@ -871,4 +1099,22 @@ The progression becomes:
 
 → **Potential Physical Deployment**
 
-Ultimately, PharmaVerse will investigate whether **generative world models, OpenUSD digital twins, synthetic data, computer vision, simulation, and Physical AI can provide a practical development environment for next-generation pharmaceutical manufacturing intelligence.**
+Near-term, that generation step is **Marble + World API**.
+
+Later, that generation and simulation step can become **Atlas**, if access and product integration allow it.
+
+Ultimately, PharmaVerse will investigate whether **World Labs world models, OpenUSD digital twins, synthetic data, computer vision, NVIDIA simulation, and Physical AI can provide a practical development environment for next-generation pharmaceutical manufacturing intelligence.**
+
+---
+
+# 21. Sources
+
+These sources define the current World Labs / NVIDIA boundary used in this plan:
+
+* World Labs, *Marble: A Multimodal World Model* — Marble is generally available; it generates worlds from text, images, video, and coarse 3D layouts; it exports Gaussian splats and triangle meshes, including collider meshes for coarse physics. https://www.worldlabs.ai/blog/marble-world-model
+* World Labs Marble product — https://marble.worldlabs.ai/
+* World Labs World API — public programmatic world generation. https://docs.worldlabs.ai/api
+* World Labs, *Generating the World Layer: How Lightwheel and World Labs Scale Robotics Evaluation* — Marble → Gaussian splat → Omniverse NuRec → USD → Isaac Sim → SimReady assets → robots/sensors/tasks. https://www.worldlabs.ai/case-studies/2-lightwheel
+* NVIDIA, *Simulate Robotic Environments Faster with NVIDIA Isaac Sim and World Labs Marble* — documented Marble splat/collider export into Isaac Sim. https://developer.nvidia.com/blog/simulate-robotic-environments-faster-with-nvidia-isaac-sim-and-world-labs-marble/
+* World Labs, *Atlas: A World Model for Spatial Intelligence* — Atlas is an omni world model for generation, reconstruction, and simulation; **"Atlas is entering early access with select partners."** https://www.worldlabs.ai/blog/atlas
+* Marble pricing — Atlas is presented as upcoming rather than generally available: **"Request access to Atlas. Coming to Marble soon."** https://marble.worldlabs.ai/pricing
