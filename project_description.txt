@@ -1,0 +1,874 @@
+# PharmaVerse
+
+## Generative World Models, Digital Twins, Synthetic Data, and Physical AI for Pharmaceutical Manufacturing
+
+### 1. Project Overview
+
+**PharmaVerse** is a simulation and artificial intelligence research project designed to investigate how generative world models, digital twins, computer vision, synthetic data, and Physical AI can be applied to pharmaceutical manufacturing environments.
+
+The project will create a virtual pharmaceutical manufacturing environment that can be used to simulate manufacturing scenarios that would otherwise require access to physical production equipment, dedicated laboratory space, manufacturing facilities, or large manually annotated datasets.
+
+PharmaVerse will explore the use of **World Labs world-generation technology, NVIDIA Omniverse/OpenUSD, NVIDIA Isaac Sim, computer vision, and machine learning** to create controllable virtual environments in which AI systems can be trained, evaluated, and stress-tested before potential interaction with physical environments.
+
+The project is intended as a **research, simulation, and engineering prototype**. It is not intended to represent a validated GMP manufacturing system or replace qualified pharmaceutical manufacturing, quality, safety, or regulatory processes.
+
+---
+
+# 2. Central Research Question
+
+The primary research question is:
+
+> **Can generative world models and physics-based simulation be combined to create useful pharmaceutical manufacturing environments for generating synthetic computer vision data, evaluating AI inspection systems, and developing Physical AI applications?**
+
+A secondary research question will investigate Sim2Real performance:
+
+> **Can computer vision models trained primarily or partially on synthetic pharmaceutical manufacturing data generalize to real-world imagery?**
+
+These questions make PharmaVerse more than a digital visualization project. The objective is to determine whether the simulated environment can generate **useful data and measurable AI performance**.
+
+---
+
+# 3. Primary Project Objective
+
+The primary objective of PharmaVerse is to develop a reusable virtual pharmaceutical manufacturing environment capable of supporting:
+
+* Synthetic computer vision dataset generation
+* Automated ground-truth annotation
+* Manufacturing scenario simulation
+* Computer vision model training
+* Computer vision model evaluation
+* Domain randomization
+* Rare-event simulation
+* Sim2Real experimentation
+* Virtual sensor testing
+* Autonomous inspection research
+* Physical AI experimentation
+
+The high-level architecture will be:
+
+**World Generation / 3D Assets**
+
+↓
+
+**OpenUSD Pharmaceutical Environment**
+
+↓
+
+**NVIDIA Omniverse / Isaac Sim**
+
+↓
+
+**Physics + Cameras + Sensors + Manufacturing Scenarios**
+
+↓
+
+**Synthetic Data Generation**
+
+↓
+
+**Computer Vision / AI Models**
+
+↓
+
+**Simulation-Based Evaluation**
+
+↓
+
+**Sim2Real Testing**
+
+↓
+
+**Physical AI Applications**
+
+---
+
+# 4. Objective: Build a Virtual Pharmaceutical Manufacturing Environment
+
+The first technical objective is to create a realistic virtual pharmaceutical manufacturing environment.
+
+The environment does not need to reproduce a specific commercial pharmaceutical facility. Instead, it should represent a plausible research environment containing common manufacturing and packaging elements.
+
+Potential assets include:
+
+* Conveyor systems
+* Packaging stations
+* Bottles
+* Vials
+* Cartons
+* Labels
+* Caps and closures
+* Trays
+* Bins
+* Pallets
+* Workstations
+* Manufacturing equipment
+* Doors and access points
+* Material staging areas
+* Inspection stations
+* Operators
+* Mobile inspection platforms
+
+World-generation tools may be used to accelerate environmental creation and spatial design, while OpenUSD assets will provide structured objects suitable for simulation.
+
+The objective is to create an environment that is not simply visually convincing but also **machine-readable and simulation-ready**.
+
+---
+
+# 5. Objective: Develop a Simulation-Ready OpenUSD Digital Twin
+
+The virtual environment will be prepared as an OpenUSD-based digital twin.
+
+Individual assets should contain appropriate information such as:
+
+**Object identity**
+
+**Semantic class**
+
+**Position**
+
+**Orientation**
+
+**Geometry**
+
+**Collision properties**
+
+**Material properties**
+
+**Relationships with other objects**
+
+This distinction is critical.
+
+A visually generated 3D environment may look like a pharmaceutical facility but still require engineering before it becomes useful for simulation.
+
+PharmaVerse will therefore investigate the workflow:
+
+**Generated World**
+
+→ **3D Asset Extraction**
+
+→ **Geometry Cleanup**
+
+→ **OpenUSD Conversion**
+
+→ **Semantic Labeling**
+
+→ **Physics Configuration**
+
+→ **Simulation-Ready Environment**
+
+---
+
+# 6. Objective: Create Virtual Computer Vision Sensors
+
+PharmaVerse will deploy virtual cameras throughout the simulated facility.
+
+Initial sensor configurations may include:
+
+* Fixed RGB cameras
+* Overhead cameras
+* Angled inspection cameras
+* Close-range inspection cameras
+* Depth cameras
+
+Future experiments may introduce:
+
+* Stereo cameras
+* LiDAR
+* Robot-mounted cameras
+* Mobile inspection cameras
+
+Each virtual sensor should be configurable for characteristics such as:
+
+* Resolution
+* Field of view
+* Camera angle
+* Position
+* Focal length
+* Exposure
+* Distance from target
+
+This allows the project to investigate how **sensor placement affects computer vision performance** before physical hardware is deployed.
+
+---
+
+# 7. Objective: Generate Automatically Labeled Synthetic Data
+
+A major objective of PharmaVerse is to generate synthetic training datasets directly from the simulation.
+
+Because the simulator knows the identity and position of every object, it can produce ground truth automatically.
+
+Potential annotations include:
+
+* RGB images
+* 2D bounding boxes
+* 3D bounding boxes
+* Semantic segmentation masks
+* Instance segmentation masks
+* Object IDs
+* Depth maps
+* Object poses
+* Camera parameters
+
+This removes much of the manual annotation burden associated with conventional computer vision dataset development.
+
+Instead of manually drawing thousands of bounding boxes, PharmaVerse can generate:
+
+**Scene**
+
+*
+
+**Image**
+
+*
+
+**Ground Truth**
+
+simultaneously.
+
+---
+
+# 8. Objective: Implement Domain Randomization
+
+One of the most important research components will be **domain randomization**.
+
+PharmaVerse will deliberately modify environmental conditions during synthetic dataset generation.
+
+Variables may include:
+
+### Lighting
+
+* Brightness
+* Direction
+* Color temperature
+* Shadows
+* Reflections
+
+### Camera
+
+* Position
+* Angle
+* Height
+* Focal length
+* Exposure
+
+### Objects
+
+* Position
+* Orientation
+* Quantity
+* Scale within realistic limits
+* Occlusion
+
+### Environment
+
+* Equipment arrangement
+* Surface appearance
+* Background complexity
+* Material placement
+
+The objective is to prevent the CV model from learning one perfectly controlled virtual environment.
+
+Instead, the model should encounter a distribution of possible environments.
+
+---
+
+# 9. First Demonstrator: Synthetic Line Clearance
+
+The first PharmaVerse application will be:
+
+## PharmaVerse Experiment 01
+
+### Synthetic Pharmaceutical Line Clearance
+
+A simulated packaging/manufacturing area will be configured with a known expected cleared state.
+
+The simulation will then programmatically introduce deviations.
+
+Examples include:
+
+* Previous-product bottle remaining
+* Loose label remaining
+* Incorrect carton
+* Previous batch documentation
+* Tool left on equipment
+* Unidentified container
+* Packaging component remaining
+* Mixed materials
+* Object partially hidden behind equipment
+* Residual material at the edge of a camera's field of view
+
+Because these scenarios are intentionally generated, the system automatically knows the ground truth.
+
+For every simulated scene:
+
+**Expected State**
+
+vs.
+
+**Actual State**
+
+will be known.
+
+---
+
+# 10. Develop the Line-Clearance Computer Vision Model
+
+Synthetic data generated by PharmaVerse will be used to train an initial computer vision model.
+
+The model should identify relevant objects and potential discrepancies.
+
+The workflow will be:
+
+**Virtual Camera**
+
+↓
+
+**Image**
+
+↓
+
+**Object Detection / Segmentation**
+
+↓
+
+**Observed Objects**
+
+↓
+
+**Expected-State Comparison**
+
+↓
+
+**Potential Discrepancy**
+
+↓
+
+**Human Review**
+
+Example output:
+
+**PHARMAVERSE INSPECTION**
+
+Area: Packaging Station 02
+
+Expected state: CLEAR
+
+Potential discrepancy detected
+
+Object: Previous-product carton
+
+Zone: Conveyor exit
+
+Confidence: 96.8%
+
+Action: Review required
+
+The system should visually identify the object responsible for the finding.
+
+---
+
+# 11. Sim2Real Research Objective
+
+The most important experimental component of PharmaVerse will be determining whether synthetic data improves performance on real images.
+
+Three experimental models should eventually be compared.
+
+### Model A: Real-Only
+
+Trained entirely on available real images.
+
+### Model B: Synthetic-Only
+
+Trained entirely using PharmaVerse-generated imagery.
+
+### Model C: Synthetic + Real
+
+Pretrained using a large synthetic dataset and fine-tuned using a smaller real dataset.
+
+All models will then be evaluated against the **same held-out real-world test dataset**.
+
+The experiment will answer:
+
+> Does synthetic training data improve real-world computer vision performance while reducing the amount of manually collected and annotated real data required?
+
+Evaluation should include:
+
+* Precision
+* Recall
+* F1
+* mAP
+* IoU where appropriate
+* False-positive rate
+* False-negative rate
+* Inference latency
+
+---
+
+# 12. Rare-Event and Edge-Case Simulation
+
+A major advantage of PharmaVerse will be the ability to generate scenarios that are difficult to collect repeatedly in reality.
+
+For example:
+
+**Normal scenario**
+
+Object completely visible.
+
+**Moderate scenario**
+
+Object partially obscured.
+
+**Difficult scenario**
+
+Small object mostly hidden behind equipment.
+
+**Extreme scenario**
+
+Object visible only from one camera under poor lighting.
+
+Thousands of controlled variations can be generated.
+
+The project can then answer questions such as:
+
+> At what percentage of occlusion does detection reliability begin to decline?
+
+> How does lighting affect false-negative rates?
+
+> Which camera position provides the highest inspection coverage?
+
+> How small can a residual object become before the model fails to detect it?
+
+This converts PharmaVerse into an **AI testing environment**, not simply an AI training environment.
+
+---
+
+# 13. Physical AI Expansion
+
+Once computer vision is functioning within the virtual facility, PharmaVerse can expand from passive inspection toward **Physical AI**.
+
+A simulated mobile robot could be introduced into Isaac Sim.
+
+The robot could use:
+
+* RGB cameras
+* Depth cameras
+* LiDAR
+* Computer vision
+* Localization
+* Path planning
+
+Its objective would be to navigate through the simulated pharmaceutical manufacturing environment and inspect designated locations.
+
+The architecture would become:
+
+**Inspection Mission**
+
+↓
+
+**Autonomous Robot**
+
+↓
+
+**Navigate to Manufacturing Zone**
+
+↓
+
+**Acquire Visual Data**
+
+↓
+
+**Computer Vision Inspection**
+
+↓
+
+**Detect Potential Abnormality**
+
+↓
+
+**Record Location**
+
+↓
+
+**Generate Inspection Finding**
+
+↓
+
+**Human Review**
+
+This would transform PharmaVerse from a synthetic-data project into a **Physical AI pharmaceutical manufacturing research platform**.
+
+---
+
+# 14. Potential Future PharmaVerse Experiments
+
+The architecture should support multiple independent research modules.
+
+**Experiment 01: Synthetic Line Clearance**
+
+Residual material and unexpected-object detection.
+
+**Experiment 02: Visual Product Inspection**
+
+Synthetic visual inspection of tablets, bottles, vials, or packaging.
+
+**Experiment 03: PPE and Gowning Detection**
+
+Computer vision for identifying required PPE within simulated controlled environments.
+
+**Experiment 04: Material Tracking**
+
+Track containers, components, and materials through simulated manufacturing processes.
+
+**Experiment 05: Autonomous Facility Inspection**
+
+Deploy a simulated robot capable of navigating the virtual facility and performing visual inspection.
+
+**Experiment 06: Multi-Camera Manufacturing Intelligence**
+
+Combine observations from multiple cameras to build a unified understanding of manufacturing-area state.
+
+---
+
+# 15. Potential Execution Plan
+
+## Phase 1: Research and Architecture
+
+**Estimated duration: 1–2 weeks**
+
+Define:
+
+* Research question
+* Primary PharmaVerse use case
+* Software architecture
+* Simulation requirements
+* Object taxonomy
+* Sensor requirements
+* Dataset requirements
+* Evaluation metrics
+
+**Deliverable:**
+
+**PharmaVerse System Design and Research Plan**
+
+---
+
+## Phase 2: Environment Prototype
+
+**Estimated duration: 2–3 weeks**
+
+Create a simplified pharmaceutical packaging environment.
+
+Do not initially attempt to build an entire facility.
+
+Start with:
+
+**One room**
+
+**One packaging station**
+
+**One conveyor**
+
+**A small number of object classes**
+
+For example:
+
+`Bottle | Carton | Label | Tray | Tool | Document`
+
+Establish the OpenUSD hierarchy and semantic object labels.
+
+**Deliverable:**
+
+**PharmaVerse Environment V1**
+
+---
+
+## Phase 3: Isaac Sim Integration
+
+**Estimated duration: 1–2 weeks**
+
+Import the environment into Isaac Sim.
+
+Configure:
+
+* Physics
+* Materials
+* Collisions
+* Lighting
+* Cameras
+* Semantic labels
+
+Validate that the environment behaves consistently.
+
+**Deliverable:**
+
+**Simulation-Ready PharmaVerse V1**
+
+---
+
+## Phase 4: Synthetic Data Pipeline
+
+**Estimated duration: 2 weeks**
+
+Configure synthetic-data generation.
+
+Produce:
+
+* RGB frames
+* Bounding boxes
+* Segmentation masks
+* Object labels
+* Depth data where useful
+* Scene metadata
+
+Develop an automated folder structure such as:
+
+```text
+pharmaverse/
+├── scenes/
+├── synthetic_data/
+│   ├── images/
+│   ├── labels/
+│   ├── masks/
+│   ├── depth/
+│   └── metadata/
+├── models/
+├── experiments/
+└── evaluation/
+```
+
+**Deliverable:**
+
+First automatically generated and labeled PharmaVerse dataset.
+
+---
+
+## Phase 5: Domain Randomization
+
+**Estimated duration: 1–2 weeks**
+
+Programmatically vary:
+
+* Object placement
+* Lighting
+* Camera angles
+* Materials
+* Occlusion
+* Scene configuration
+
+Generate progressively larger datasets.
+
+Initial target:
+
+**5,000–10,000 synthetic images**
+
+rather than immediately attempting hundreds of thousands.
+
+**Deliverable:**
+
+**PharmaVerse Synthetic Dataset V1**
+
+---
+
+## Phase 6: Baseline Computer Vision Model
+
+**Estimated duration: 1–2 weeks**
+
+Train a baseline detection/segmentation model.
+
+Evaluate:
+
+* Precision
+* Recall
+* mAP
+* False negatives
+* Inference speed
+
+Analyze failures visually.
+
+**Deliverable:**
+
+**PharmaVerse CV Model V1**
+
+---
+
+## Phase 7: Synthetic Line-Clearance Experiment
+
+**Estimated duration: 2 weeks**
+
+Generate controlled line-clearance scenarios.
+
+Create difficulty levels:
+
+**Level 1:** Obvious residual object
+
+**Level 2:** Small object
+
+**Level 3:** Partial occlusion
+
+**Level 4:** Similar-looking object
+
+**Level 5:** Difficult lighting/position
+
+Evaluate model performance at each level.
+
+**Deliverable:**
+
+**Synthetic Line Clearance Experiment Report**
+
+---
+
+## Phase 8: Sim2Real Experiment
+
+**Estimated duration: 2–4 weeks**
+
+Acquire a small real-world dataset from legally usable imagery or a compact controlled setup where feasible.
+
+Train:
+
+**Real-only**
+
+vs.
+
+**Synthetic-only**
+
+vs.
+
+**Synthetic + real**
+
+Evaluate all three against the same real-world test set.
+
+**Deliverable:**
+
+**PharmaVerse Sim2Real Evaluation**
+
+This should become one of the project's major research findings.
+
+---
+
+## Phase 9: Visualization and Command Center
+
+**Estimated duration: 1–2 weeks**
+
+Create a PharmaVerse interface showing:
+
+* Virtual facility
+* Camera locations
+* Inspection zones
+* Detected objects
+* Potential discrepancies
+* Confidence
+* Simulation scenario
+* Model performance
+* Inspection history
+
+**Deliverable:**
+
+**PharmaVerse AI Inspection Command Center**
+
+---
+
+## Phase 10: Physical AI Expansion
+
+**Future phase**
+
+Introduce a simulated inspection robot.
+
+Develop:
+
+**Navigation → Perception → Inspection → Finding → Reporting**
+
+Measure:
+
+* Inspection coverage
+* Navigation success
+* Detection performance
+* Mission completion time
+* Missed inspection areas
+
+**Deliverable:**
+
+**PharmaVerse Autonomous Inspection Robot Prototype**
+
+---
+
+# 16. Recommended MVP
+
+The initial PharmaVerse MVP should remain deliberately small.
+
+### Environment
+
+One simulated pharmaceutical packaging room.
+
+### Assets
+
+Approximately 10–20 relevant object types.
+
+### Cameras
+
+Two fixed virtual RGB cameras.
+
+### Scenario
+
+Line-clearance inspection.
+
+### AI
+
+One object detection or segmentation model.
+
+### Synthetic Dataset
+
+Approximately 5,000–10,000 automatically labeled images.
+
+### Experiment
+
+Evaluate detection performance across normal, residual-object, occlusion, lighting, and camera-position scenarios.
+
+### Final MVP Demonstration
+
+The user launches a PharmaVerse simulation.
+
+A packaging station initially appears cleared.
+
+The simulation introduces a previous-product component.
+
+A virtual camera observes the scene.
+
+The CV model detects the object.
+
+The interface highlights it.
+
+The system reports:
+
+**REVIEW REQUIRED**
+
+Potential residual material detected.
+
+The user can then change the lighting, object position, camera angle, or occlusion level and observe whether the model continues to detect the discrepancy.
+
+---
+
+# 17. Long-Term Vision
+
+The long-term vision is for PharmaVerse to become a reusable **virtual AI proving ground for pharmaceutical manufacturing**.
+
+Rather than requiring every new AI concept to begin with physical hardware, manufacturing access, and real-world data collection, researchers could first develop and evaluate the concept inside PharmaVerse.
+
+The progression becomes:
+
+**Generate**
+
+→ **Simulate**
+
+→ **Train**
+
+→ **Test**
+
+→ **Stress-Test**
+
+→ **Validate Against Real Data**
+
+→ **Improve**
+
+→ **Potential Physical Deployment**
+
+Ultimately, PharmaVerse will investigate whether **generative world models, OpenUSD digital twins, synthetic data, computer vision, simulation, and Physical AI can provide a practical development environment for next-generation pharmaceutical manufacturing intelligence.**
