@@ -56,10 +56,10 @@
     "text_prompt": "A modern pharmaceutical packaging suite with stainless-steel equipment, a packaging conveyor, inspection stations, pharmaceutical bottles, cartons, material staging areas and controlled manufacturing architecture. Clean GMP-like interior, smooth epoxy floor, overhead cleanroom-style lighting, no people in the foreground, photorealistic industrial photography."
   },
   "local_files": {
-    "collider": "C:\\Users\\arewa\\OneDrive\\Documents\\Exodus\\PharmaVerse\\worlds\\marble\\exports\\packaging_suite_v1__primary__seed1\\collider.glb",
-    "pano": "C:\\Users\\arewa\\OneDrive\\Documents\\Exodus\\PharmaVerse\\worlds\\marble\\exports\\packaging_suite_v1__primary__seed1\\pano.png",
-    "ply": "C:\\Users\\arewa\\OneDrive\\Documents\\Exodus\\PharmaVerse\\worlds\\marble\\exports\\packaging_suite_v1__primary__seed1\\splats_full_res.ply",
-    "thumbnail": "C:\\Users\\arewa\\OneDrive\\Documents\\Exodus\\PharmaVerse\\worlds\\marble\\exports\\packaging_suite_v1__primary__seed1\\thumbnail.jpg"
+    "collider": "worlds/marble/exports/packaging_suite_v1__primary__seed1/collider.glb",
+    "pano": "worlds/marble/exports/packaging_suite_v1__primary__seed1/pano.png",
+    "ply": "worlds/marble/exports/packaging_suite_v1__primary__seed1/splats_full_res.ply",
+    "thumbnail": "worlds/marble/exports/packaging_suite_v1__primary__seed1/thumbnail.jpg"
   },
   "operation_id": "021a9047-644b-4f08-b59e-28ce3cfba862",
   "ply_export": {

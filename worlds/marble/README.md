@@ -17,6 +17,8 @@ Create worlds with:
 
 ```bash
 python -m pharmaverse.worlds generate --mode primary
+python -m pharmaverse.worlds ingest --world-id WORLD_ID --as-primary
+python -m pharmaverse.worlds status
 ```
 
 See [`docs/phase-2-world-generation.md`](../../docs/phase-2-world-generation.md).

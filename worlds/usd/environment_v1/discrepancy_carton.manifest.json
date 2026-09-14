@@ -1,7 +1,15 @@
 {
   "collider": null,
   "expected_state": "DISCREPANCY",
-  "marble": {},
+  "marble": {
+    "collider_path": "worlds/marble/exports/packaging_suite_v1__primary__seed1/collider.glb",
+    "ground_plane_offset": 1.7919285297393799,
+    "marble_url": "https://marble.worldlabs.ai/world/850b4709-cabf-4643-8bf6-5cc187e85fa4",
+    "metric_scale_factor": 1.6637861728668213,
+    "model": "marble-1.1",
+    "ply_path": "worlds/marble/exports/packaging_suite_v1__primary__seed1/splats_full_res.ply",
+    "world_id": "850b4709-cabf-4643-8bf6-5cc187e85fa4"
+  },
   "prims": {
     "cameras": [
       "/World/Cameras/cam_overhead",
@@ -14,5 +22,5 @@
     "zones": "/World/Zones"
   },
   "splat": null,
-  "stage": "worlds\\usd\\environment_v1\\discrepancy_carton.usda"
+  "stage": "worlds/usd/environment_v1/discrepancy_carton.usda"
 }

@@ -44,6 +44,11 @@ python -m pharmaverse.worlds generate --mode variants --dry-run
 # Check API credits
 python -m pharmaverse.worlds credits
 
+# Record a world you already generated (web app or previous API run)
+python -m pharmaverse.worlds ingest --world-id WORLD_ID --as-primary
+python -m pharmaverse.worlds list --model marble-1.1
+python -m pharmaverse.worlds status
+
 # Cheap prompt iteration
 python -m pharmaverse.worlds generate --mode primary --draft
 
@@ -78,4 +83,16 @@ Do not treat bottles or cartons baked into the splat as line-clearance objects.
 
 ## Status in this environment
 
-This cloud agent did not have `WLT_API_KEY` or World API credits, so live Marble generation was not executed here. The recipe, client, CLI, tests, and dry-run plan are in the repo. Setting the key and running `python -m pharmaverse.worlds generate --mode primary` is the remaining live step.
+The Phase 2 keeper is recorded:
+
+- `world_id`: `850b4709-cabf-4643-8bf6-5cc187e85fa4`
+- model: `marble-1.1`
+- metadata: `worlds/marble/metadata/packaging_suite_v1__primary__seed1.json`
+
+PLY export is billed as a cached splat download (no extra world-generation charge). Next: convert that PLY on an NVIDIA GPU and attach it in Isaac Sim. See [`docs/phase-4-isaac-sim.md`](phase-4-isaac-sim.md) and `python -m pharmaverse.worlds status`.
+
+If you generated a world in the Marble web app instead of this CLI, ingest it:
+
+```bash
+python -m pharmaverse.worlds ingest --world-id https://marble.worldlabs.ai/world/WORLD_ID --as-primary
+```
