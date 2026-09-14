@@ -1,6 +1,6 @@
 {
   "collider": null,
-  "expected_state": "CLEAR",
+  "expected_state": "DISCREPANCY",
   "marble": {},
   "prims": {
     "cameras": [
@@ -14,5 +14,5 @@
     "zones": "/World/Zones"
   },
   "splat": null,
-  "stage": "worlds\\usd\\environment_v1\\environment_v1.usda"
+  "stage": "worlds\\usd\\environment_v1\\discrepancy_carton.usda"
 }

@@ -1,0 +1,76 @@
+{
+  "assets": {
+    "caption": "The scene is a modern pharmaceutical packaging suite, rendered in a photorealistic industrial photography style, conveying a clean and highly controlled manufacturing environment. The overall tone is sterile and efficient, emphasizing precision and adherence to Good Manufacturing Practices (GMP). The suite is equipped with an array of stainless-steel equipment, including a prominent packaging conveyor system that traverses the space, designed for automated product movement. Integrated inspection stations are strategically placed along the conveyor, featuring advanced sensors and cameras for quality control. Numerous pharmaceutical bottles and cartons are visible, neatly arranged on the conveyor and within designated material staging areas, indicating active production. The architecture of the suite is characterized by controlled manufacturing design, featuring smooth, seamless surfaces and minimal crevices to prevent contamination. The floor is a pristine, light-colored epoxy, reflecting the overhead cleanroom-style lighting, which provides uniform and shadow-free illumination throughout the entire space. Walls are smooth and white, contributing to the sterile aesthetic. The material staging areas are organized with racks and bins, holding various components for the packaging process. The packaging conveyor system runs centrally through the suite, with inspection stations integrated directly into its path. Pharmaceutical bottles and cartons are positioned on the conveyor and within the staging areas, which are located along the perimeter walls. The cleanroom-style lighting fixtures are recessed into the ceiling, providing comprehensive illumination. ",
+    "collider_mesh_url": "https://cdn.marble.worldlabs.ai/850b4709-cabf-4643-8bf6-5cc187e85fa4/26b12ba4.glb",
+    "hq_mesh_url": null,
+    "pano_url": "https://cdn.marble.worldlabs.ai/850b4709-cabf-4643-8bf6-5cc187e85fa4/14997469-9085-4307-b4f3-1f2bb8a7985f_panos/rgb_0.png",
+    "semantics_metadata": {
+      "ground_plane_offset": 1.7919285297393799,
+      "metric_scale_factor": 1.6637861728668213
+    },
+    "spz_urls": {
+      "100k": "https://cdn.marble.worldlabs.ai/850b4709-cabf-4643-8bf6-5cc187e85fa4/d1c17471-d67a-4bb9-b551-92aa2d351b15_dust_100k.spz",
+      "150k": "https://cdn.marble.worldlabs.ai/850b4709-cabf-4643-8bf6-5cc187e85fa4/a876fcdd-c7e3-425c-8858-536d7615fd1b_ceramic_150k.spz",
+      "500k": "https://cdn.marble.worldlabs.ai/850b4709-cabf-4643-8bf6-5cc187e85fa4/1da1ec47-8b8b-492f-885b-f471671fc2ab_ceramic_500k.spz",
+      "full_res": "https://cdn.marble.worldlabs.ai/850b4709-cabf-4643-8bf6-5cc187e85fa4/096e4f79-7a23-43e8-90f5-ee97b2c1537b_ceramic.spz"
+    },
+    "thumbnail_url": "https://cdn.marble.worldlabs.ai/850b4709-cabf-4643-8bf6-5cc187e85fa4/ba8104dd-2fd2-44c6-b58b-2a3ada29eb6a_sand_mpi/thumbnail.webp"
+  },
+  "created_at": "2026-09-14T19:17:12Z",
+  "experiment": "line_clearance_01",
+  "job": {
+    "display_name": "PharmaVerse Packaging Suite V1 s1",
+    "experiment": "line_clearance_01",
+    "generate_request": {
+      "display_name": "PharmaVerse Packaging Suite V1 s1",
+      "model": "marble-1.1",
+      "permission": {
+        "public": false
+      },
+      "seed": 1,
+      "tags": [
+        "pharmaverse",
+        "packaging",
+        "line-clearance",
+        "stainless-steel"
+      ],
+      "world_prompt": {
+        "text_prompt": "A modern pharmaceutical packaging suite with stainless-steel equipment, a packaging conveyor, inspection stations, pharmaceutical bottles, cartons, material staging areas and controlled manufacturing architecture. Clean GMP-like interior, smooth epoxy floor, overhead cleanroom-style lighting, no people in the foreground, photorealistic industrial photography.",
+        "type": "text"
+      }
+    },
+    "job_id": "packaging_suite_v1__primary__seed1",
+    "model": "marble-1.1",
+    "permission": {
+      "public": false
+    },
+    "prompt_id": "primary",
+    "recipe_id": "packaging_suite_v1",
+    "seed": 1,
+    "tags": [
+      "pharmaverse",
+      "packaging",
+      "line-clearance",
+      "stainless-steel"
+    ],
+    "text_prompt": "A modern pharmaceutical packaging suite with stainless-steel equipment, a packaging conveyor, inspection stations, pharmaceutical bottles, cartons, material staging areas and controlled manufacturing architecture. Clean GMP-like interior, smooth epoxy floor, overhead cleanroom-style lighting, no people in the foreground, photorealistic industrial photography."
+  },
+  "local_files": {
+    "collider": "C:\\Users\\arewa\\OneDrive\\Documents\\Exodus\\PharmaVerse\\worlds\\marble\\exports\\packaging_suite_v1__primary__seed1\\collider.glb",
+    "pano": "C:\\Users\\arewa\\OneDrive\\Documents\\Exodus\\PharmaVerse\\worlds\\marble\\exports\\packaging_suite_v1__primary__seed1\\pano.png",
+    "ply": "C:\\Users\\arewa\\OneDrive\\Documents\\Exodus\\PharmaVerse\\worlds\\marble\\exports\\packaging_suite_v1__primary__seed1\\splats_full_res.ply",
+    "thumbnail": "C:\\Users\\arewa\\OneDrive\\Documents\\Exodus\\PharmaVerse\\worlds\\marble\\exports\\packaging_suite_v1__primary__seed1\\thumbnail.jpg"
+  },
+  "operation_id": "021a9047-644b-4f08-b59e-28ce3cfba862",
+  "ply_export": {
+    "operation_id": "20b300e3-1461-48f1-9dc0-b180bf46e86a",
+    "url": "https://cdn.marble.worldlabs.ai/850b4709-cabf-4643-8bf6-5cc187e85fa4/exports/splats_full_res.ply"
+  },
+  "world": {
+    "caption": "The scene is a modern pharmaceutical packaging suite, rendered in a photorealistic industrial photography style, conveying a clean and highly controlled manufacturing environment. The overall tone is sterile and efficient, emphasizing precision and adherence to Good Manufacturing Practices (GMP). The suite is equipped with an array of stainless-steel equipment, including a prominent packaging conveyor system that traverses the space, designed for automated product movement. Integrated inspection stations are strategically placed along the conveyor, featuring advanced sensors and cameras for quality control. Numerous pharmaceutical bottles and cartons are visible, neatly arranged on the conveyor and within designated material staging areas, indicating active production. The architecture of the suite is characterized by controlled manufacturing design, featuring smooth, seamless surfaces and minimal crevices to prevent contamination. The floor is a pristine, light-colored epoxy, reflecting the overhead cleanroom-style lighting, which provides uniform and shadow-free illumination throughout the entire space. Walls are smooth and white, contributing to the sterile aesthetic. The material staging areas are organized with racks and bins, holding various components for the packaging process. The packaging conveyor system runs centrally through the suite, with inspection stations integrated directly into its path. Pharmaceutical bottles and cartons are positioned on the conveyor and within the staging areas, which are located along the perimeter walls. The cleanroom-style lighting fixtures are recessed into the ceiling, providing comprehensive illumination. ",
+    "id": "850b4709-cabf-4643-8bf6-5cc187e85fa4",
+    "marble_url": "https://marble.worldlabs.ai/world/850b4709-cabf-4643-8bf6-5cc187e85fa4",
+    "model": "marble-1.1"
+  },
+  "world_id": "850b4709-cabf-4643-8bf6-5cc187e85fa4"
+}
