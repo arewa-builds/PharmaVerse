@@ -3,7 +3,9 @@ from __future__ import annotations
 import json
 from urllib.request import Request
 
-from pharmaverse.worlds.client import WorldLabsClient, unwrap_world
+import pytest
+
+from pharmaverse.worlds.client import WorldAPIError, WorldLabsClient, load_api_key, unwrap_world
 
 
 def test_unwrap_world_accepts_wrapped_and_id_fields() -> None:
@@ -11,6 +13,12 @@ def test_unwrap_world_accepts_wrapped_and_id_fields() -> None:
     assert wrapped["world_id"] == "abc"
     direct = unwrap_world({"world_id": "def", "display_name": "y"})
     assert direct["world_id"] == "def"
+
+
+def test_load_api_key_uses_wlt_api_key_only() -> None:
+    assert load_api_key({"WLT_API_KEY": "secret"}) == "secret"
+    with pytest.raises(WorldAPIError, match="WLT_API_KEY"):
+        load_api_key({"WORLDLABS_API_KEY": "ignored"})
 
 
 def test_generate_and_poll(tmp_path) -> None:  # noqa: ARG001

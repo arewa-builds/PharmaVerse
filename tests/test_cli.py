@@ -32,6 +32,5 @@ def test_dry_run_writes_plan(tmp_path, capsys) -> None:
 
 def test_missing_key_fails_live_generate(monkeypatch) -> None:
     monkeypatch.delenv("WLT_API_KEY", raising=False)
-    monkeypatch.delenv("WORLDLABS_API_KEY", raising=False)
     code = main(["generate", "--recipe", str(RECIPE), "--mode", "primary"])
     assert code == 2
