@@ -23,7 +23,7 @@ Large binaries are gitignored. Metadata is the durable record.
 
 1. A World Labs account at [platform.worldlabs.ai](https://platform.worldlabs.ai/).
 2. **World API credits** purchased on that platform. Credits bought in the Marble web app **cannot** be used with the API.
-3. An API key in `.env`:
+3. An API key in `.env` as `WLT_API_KEY`. That value is sent as the `WLT-Api-Key` HTTP header. There is no second env var.
 
 ```bash
 cp .env.example .env

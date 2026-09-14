@@ -27,11 +27,11 @@ class WorldAPIError(RuntimeError):
 
 def load_api_key(environ: dict[str, str] | None = None) -> str:
     env = environ if environ is not None else os.environ
-    key = (env.get("WLT_API_KEY") or env.get("WORLDLABS_API_KEY") or "").strip()
+    key = (env.get("WLT_API_KEY") or "").strip()
     if not key:
         raise WorldAPIError(
-            "Set WLT_API_KEY (or WORLDLABS_API_KEY) to a World Labs World API key "
-            "from https://platform.worldlabs.ai/. Marble app credits cannot be used."
+            "Set WLT_API_KEY to a World Labs World API key from "
+            "https://platform.worldlabs.ai/. Marble app credits cannot be used."
         )
     return key
 
