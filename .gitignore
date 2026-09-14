@@ -14,7 +14,9 @@ __pycache__/
 *.egg-info/
 
 # Generated worlds, simulation assets, and datasets
-worlds/marble/exports/
+worlds/marble/exports/**
+!worlds/marble/exports/
+!worlds/marble/exports/.gitkeep
 worlds/usd/
 synthetic_data/
 models/checkpoints/

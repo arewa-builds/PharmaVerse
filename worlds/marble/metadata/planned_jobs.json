@@ -1,0 +1,156 @@
+{
+  "created_at": "2026-09-14T18:13:22Z",
+  "draft": false,
+  "jobs": [
+    {
+      "display_name": "PharmaVerse Packaging Suite V1 s1",
+      "experiment": "line_clearance_01",
+      "generate_request": {
+        "display_name": "PharmaVerse Packaging Suite V1 s1",
+        "model": "marble-1.1",
+        "permission": {
+          "public": false
+        },
+        "seed": 1,
+        "tags": [
+          "pharmaverse",
+          "packaging",
+          "line-clearance",
+          "stainless-steel"
+        ],
+        "world_prompt": {
+          "text_prompt": "A modern pharmaceutical packaging suite with stainless-steel equipment, a packaging conveyor, inspection stations, pharmaceutical bottles, cartons, material staging areas and controlled manufacturing architecture. Clean GMP-like interior, smooth epoxy floor, overhead cleanroom-style lighting, no people in the foreground, photorealistic industrial photography.",
+          "type": "text"
+        }
+      },
+      "job_id": "packaging_suite_v1__primary__seed1",
+      "model": "marble-1.1",
+      "permission": {
+        "public": false
+      },
+      "prompt_id": "primary",
+      "recipe_id": "packaging_suite_v1",
+      "seed": 1,
+      "tags": [
+        "pharmaverse",
+        "packaging",
+        "line-clearance",
+        "stainless-steel"
+      ],
+      "text_prompt": "A modern pharmaceutical packaging suite with stainless-steel equipment, a packaging conveyor, inspection stations, pharmaceutical bottles, cartons, material staging areas and controlled manufacturing architecture. Clean GMP-like interior, smooth epoxy floor, overhead cleanroom-style lighting, no people in the foreground, photorealistic industrial photography."
+    },
+    {
+      "display_name": "PharmaVerse Packaging Suite V1 / cooler_lighting s1",
+      "experiment": "line_clearance_01",
+      "generate_request": {
+        "display_name": "PharmaVerse Packaging Suite V1 / cooler_lighting s1",
+        "model": "marble-1.1",
+        "permission": {
+          "public": false
+        },
+        "seed": 1,
+        "tags": [
+          "pharmaverse",
+          "packaging",
+          "line-clearance",
+          "stainless-steel"
+        ],
+        "world_prompt": {
+          "text_prompt": "A modern pharmaceutical packaging suite with stainless-steel equipment, a packaging conveyor, inspection stations, and material staging areas. Cool white cleanroom lighting, pale epoxy floor, photorealistic.",
+          "type": "text"
+        }
+      },
+      "job_id": "packaging_suite_v1__cooler_lighting__seed1",
+      "model": "marble-1.1",
+      "permission": {
+        "public": false
+      },
+      "prompt_id": "cooler_lighting",
+      "recipe_id": "packaging_suite_v1",
+      "seed": 1,
+      "tags": [
+        "pharmaverse",
+        "packaging",
+        "line-clearance",
+        "stainless-steel"
+      ],
+      "text_prompt": "A modern pharmaceutical packaging suite with stainless-steel equipment, a packaging conveyor, inspection stations, and material staging areas. Cool white cleanroom lighting, pale epoxy floor, photorealistic."
+    },
+    {
+      "display_name": "PharmaVerse Packaging Suite V1 / warmer_shift s1",
+      "experiment": "line_clearance_01",
+      "generate_request": {
+        "display_name": "PharmaVerse Packaging Suite V1 / warmer_shift s1",
+        "model": "marble-1.1",
+        "permission": {
+          "public": false
+        },
+        "seed": 1,
+        "tags": [
+          "pharmaverse",
+          "packaging",
+          "line-clearance",
+          "stainless-steel"
+        ],
+        "world_prompt": {
+          "text_prompt": "A pharmaceutical secondary packaging room with a bottle conveyor, carton packing station, stainless tables, and staged packaging components. Warm industrial lighting, photorealistic.",
+          "type": "text"
+        }
+      },
+      "job_id": "packaging_suite_v1__warmer_shift__seed1",
+      "model": "marble-1.1",
+      "permission": {
+        "public": false
+      },
+      "prompt_id": "warmer_shift",
+      "recipe_id": "packaging_suite_v1",
+      "seed": 1,
+      "tags": [
+        "pharmaverse",
+        "packaging",
+        "line-clearance",
+        "stainless-steel"
+      ],
+      "text_prompt": "A pharmaceutical secondary packaging room with a bottle conveyor, carton packing station, stainless tables, and staged packaging components. Warm industrial lighting, photorealistic."
+    },
+    {
+      "display_name": "PharmaVerse Packaging Suite V1 / tighter_room s1",
+      "experiment": "line_clearance_01",
+      "generate_request": {
+        "display_name": "PharmaVerse Packaging Suite V1 / tighter_room s1",
+        "model": "marble-1.1",
+        "permission": {
+          "public": false
+        },
+        "seed": 1,
+        "tags": [
+          "pharmaverse",
+          "packaging",
+          "line-clearance",
+          "stainless-steel"
+        ],
+        "world_prompt": {
+          "text_prompt": "A compact pharmaceutical packaging cell with one conveyor, one inspection station, stainless guards, and a small staging table. Tight room, overhead lights, photorealistic.",
+          "type": "text"
+        }
+      },
+      "job_id": "packaging_suite_v1__tighter_room__seed1",
+      "model": "marble-1.1",
+      "permission": {
+        "public": false
+      },
+      "prompt_id": "tighter_room",
+      "recipe_id": "packaging_suite_v1",
+      "seed": 1,
+      "tags": [
+        "pharmaverse",
+        "packaging",
+        "line-clearance",
+        "stainless-steel"
+      ],
+      "text_prompt": "A compact pharmaceutical packaging cell with one conveyor, one inspection station, stainless guards, and a small staging table. Tight room, overhead lights, photorealistic."
+    }
+  ],
+  "mode": "variants",
+  "recipe_path": "config/marble/packaging_suite_v1.yaml"
+}

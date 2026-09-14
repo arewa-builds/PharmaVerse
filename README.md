@@ -12,8 +12,9 @@ This is a research, simulation, and engineering prototype. It is **not** a valid
 
 The full objectives and execution plan live in [`project_description.txt`](./project_description.txt).
 
-**Current phase: 1 — Research and architecture (complete).**  
-The Phase 1 deliverable is [`docs/system-design.md`](./docs/system-design.md). Next is Phase 2: generate the first Marble packaging world.
+**Current phase: 2 — World Labs Marble world generation.**  
+Phase 1 design: [`docs/system-design.md`](./docs/system-design.md).  
+Phase 2 runbook: [`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md).
 
 ---
 
@@ -87,7 +88,7 @@ Marble is generally available and the World API is public. Atlas is entering ear
 ### First implementation phases
 
 1. Research and architecture — **done** ([`docs/system-design.md`](./docs/system-design.md))
-2. **World Labs Marble world generation** ← next
+2. **World Labs Marble world generation** — in progress ([`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md))
 3. OpenUSD conversion and environment prototype
 4. Isaac Sim integration
 5. Synthetic data pipeline
@@ -125,20 +126,31 @@ Demo loop: cleared station → residual object appears → camera observes it �
 
 ## Repository status
 
-Phase 1 is complete. Implementation of Marble world generation has not started.
+Phase 2 adds a World API client and the `packaging_suite_v1` generation recipe. Live Marble calls need `WLT_API_KEY` and platform API credits.
 
 ```text
 PharmaVerse/
 ├── README.md
 ├── project_description.txt
 ├── docs/system-design.md
-├── config/
-│   ├── taxonomy.yaml
-│   ├── cameras.yaml
-│   ├── evaluation.yaml
-│   └── marble/packaging_suite_v1.yaml
+├── docs/phase-2-world-generation.md
+├── config/marble/packaging_suite_v1.yaml
+├── src/pharmaverse/worlds/     # generate / export / metadata
+├── worlds/marble/              # planned jobs, prompts, future exports
 └── .env.example
 ```
+
+### Generate a Marble world
+
+```bash
+python -m pip install -e ".[dev]"
+cp .env.example .env   # set WLT_API_KEY from https://platform.worldlabs.ai/
+
+python -m pharmaverse.worlds generate --mode primary --dry-run
+python -m pharmaverse.worlds generate --mode primary
+```
+
+`--mode variants` generates the small packaging-suite family (primary + 3 prompt variants). Details: [`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md).
 
 Intended later layout:
 
