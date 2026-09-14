@@ -775,7 +775,11 @@ Work to complete in this phase:
 
 **PharmaVerse Marble World V1**
 
-Exported splat/mesh assets plus a reproducible generation recipe.
+Reproducible recipe: [`config/marble/packaging_suite_v1.yaml`](config/marble/packaging_suite_v1.yaml).  
+Client / CLI: `python -m pharmaverse.worlds generate`.  
+Runbook: [`docs/phase-2-world-generation.md`](docs/phase-2-world-generation.md).
+
+Exported splat/mesh assets are written to `worlds/marble/exports/` once `WLT_API_KEY` and World API credits are available.
 
 ---
 
