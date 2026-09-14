@@ -742,7 +742,7 @@ Define:
 
 **PharmaVerse System Design and Research Plan**
 
-This document is the starting point for that deliverable.
+Captured in [`docs/system-design.md`](docs/system-design.md), with machine-readable taxonomy, cameras, evaluation, and Marble prompt recipe under `config/`.
 
 ---
 

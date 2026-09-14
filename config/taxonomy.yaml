@@ -1,0 +1,137 @@
+# PharmaVerse object taxonomy v1
+# Frozen for Experiment 01: Synthetic Line Clearance.
+# Detection classes are spawnable Isaac Sim assets. Environment classes are
+# scene structure (often baked into the Marble world) and are labeled for
+# segmentation / zone logic, not as line-clearance residuals.
+
+version: 1
+experiment: line_clearance_01
+semantic_schema: class
+
+detection_classes:
+  - id: 0
+    name: bottle
+    coco_id: 1
+    usd_semantic: bottle
+    description: Pharmaceutical bottle that should not remain after clearance.
+    typical_size_m: [0.04, 0.04, 0.12]
+    discrepancy_if_present: true
+  - id: 1
+    name: vial
+    coco_id: 2
+    usd_semantic: vial
+    description: Small glass or plastic vial.
+    typical_size_m: [0.02, 0.02, 0.05]
+    discrepancy_if_present: true
+  - id: 2
+    name: carton
+    coco_id: 3
+    usd_semantic: carton
+    description: Product carton or shipper from a previous batch.
+    typical_size_m: [0.12, 0.08, 0.12]
+    discrepancy_if_present: true
+  - id: 3
+    name: label
+    coco_id: 4
+    usd_semantic: label
+    description: Loose pressure-sensitive label or label roll remnant.
+    typical_size_m: [0.08, 0.05, 0.001]
+    discrepancy_if_present: true
+  - id: 4
+    name: cap
+    coco_id: 5
+    usd_semantic: cap
+    description: Cap or closure left on equipment or the line.
+    typical_size_m: [0.03, 0.03, 0.02]
+    discrepancy_if_present: true
+  - id: 5
+    name: tray
+    coco_id: 6
+    usd_semantic: tray
+    description: Component or product tray remaining in the zone.
+    typical_size_m: [0.30, 0.20, 0.05]
+    discrepancy_if_present: true
+  - id: 6
+    name: tool
+    coco_id: 7
+    usd_semantic: tool
+    description: Hand tool left on equipment.
+    typical_size_m: [0.20, 0.04, 0.03]
+    discrepancy_if_present: true
+  - id: 7
+    name: document
+    coco_id: 8
+    usd_semantic: document
+    description: Previous-batch paperwork, traveler, or printed record.
+    typical_size_m: [0.21, 0.30, 0.002]
+    discrepancy_if_present: true
+  - id: 8
+    name: unidentified_container
+    coco_id: 9
+    usd_semantic: unidentified_container
+    description: Unlabeled or unexpected container.
+    typical_size_m: [0.15, 0.15, 0.20]
+    discrepancy_if_present: true
+  - id: 9
+    name: packaging_component
+    coco_id: 10
+    usd_semantic: packaging_component
+    description: Miscellaneous packaging remnant (insert, leaflet, divider).
+    typical_size_m: [0.10, 0.08, 0.02]
+    discrepancy_if_present: true
+
+environment_classes:
+  - name: conveyor
+    usd_semantic: conveyor
+    description: Packaging conveyor. Background / zone geometry.
+  - name: packaging_station
+    usd_semantic: packaging_station
+    description: Primary packaging work area.
+  - name: inspection_station
+    usd_semantic: inspection_station
+    description: Visual inspection area.
+  - name: staging_area
+    usd_semantic: staging_area
+    description: Material staging adjacent to the line.
+  - name: bin
+    usd_semantic: bin
+    description: Waste or component bin. Not a residual unless out of place.
+  - name: pallet
+    usd_semantic: pallet
+    description: Pallet in staging. Not a residual unless in a cleared zone.
+  - name: floor
+    usd_semantic: floor
+  - name: wall
+    usd_semantic: wall
+  - name: equipment
+    usd_semantic: equipment
+    description: Stainless equipment that is part of the expected scene.
+
+zones:
+  - id: packaging_station_01
+    display_name: Packaging Station 01
+    cameras: [cam_overhead, cam_angled]
+    expected_state_when_clear: empty_of_detection_classes
+  - id: conveyor_infeed
+    display_name: Conveyor infeed
+    cameras: [cam_overhead]
+    expected_state_when_clear: empty_of_detection_classes
+  - id: conveyor_exit
+    display_name: Conveyor exit
+    cameras: [cam_angled]
+    expected_state_when_clear: empty_of_detection_classes
+  - id: inspection_station_01
+    display_name: Inspection Station 01
+    cameras: [cam_angled]
+    expected_state_when_clear: empty_of_detection_classes
+  - id: material_staging
+    display_name: Material staging
+    cameras: [cam_overhead]
+    expected_state_when_clear: empty_of_detection_classes
+
+# V1 line-clearance rule: a CLEAR zone must contain zero detection-class
+# instances. Any detection with confidence >= threshold is a discrepancy.
+line_clearance:
+  expected_state: CLEAR
+  discrepancy_rule: any_detection_class_in_zone
+  human_action: REVIEW REQUIRED

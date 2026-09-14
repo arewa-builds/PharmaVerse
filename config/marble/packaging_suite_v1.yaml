@@ -1,0 +1,63 @@
+# Phase 2 world-generation recipe.
+# Do not generate a full factory. One packaging suite / room.
+
+id: packaging_suite_v1
+display_name: PharmaVerse Packaging Suite V1
+experiment: line_clearance_01
+model: marble-1.1
+draft_model: marble-1.0-draft
+permission:
+  public: false
+tags:
+  - pharmaverse
+  - packaging
+  - line-clearance
+  - stainless-steel
+
+# Use draft_model while iterating on wording. Promote to model for keepers.
+primary_prompt: >
+  A modern pharmaceutical packaging suite with stainless-steel equipment,
+  a packaging conveyor, inspection stations, pharmaceutical bottles, cartons,
+  material staging areas and controlled manufacturing architecture. Clean
+  GMP-like interior, smooth epoxy floor, overhead cleanroom-style lighting,
+  no people in the foreground, photorealistic industrial photography.
+
+# World-level domain randomization (Phase 6). Same layout intent, different look.
+variant_prompts:
+  - id: cooler_lighting
+    text: >
+      A modern pharmaceutical packaging suite with stainless-steel equipment,
+      a packaging conveyor, inspection stations, and material staging areas.
+      Cool white cleanroom lighting, pale epoxy floor, photorealistic.
+  - id: warmer_shift
+    text: >
+      A pharmaceutical secondary packaging room with a bottle conveyor,
+      carton packing station, stainless tables, and staged packaging
+      components. Warm industrial lighting, photorealistic.
+  - id: tighter_room
+    text: >
+      A compact pharmaceutical packaging cell with one conveyor, one
+      inspection station, stainless guards, and a small staging table.
+      Tight room, overhead lights, photorealistic.
+
+seeds:
+  - 1
+  - 2
+  - 3
+
+exports:
+  splats_ply:
+    asset_type: splats
+    format: ply
+    resolution: full_res
+  collider_mesh:
+    # Available on the world object after generation.
+    source: assets.mesh.collider_mesh_url
+    format: glb
+
+notes:
+  - Marble supplies spatial appearance. Do not rely on baked bottles/cartons as controllable residuals.
+  - Spawn inspection objects as USD assets in Isaac Sim.
+  - Record world_id, model, seed, prompt_id, and export URLs in worlds/marble/metadata/.
+  - API credits are purchased at platform.worldlabs.ai, not in the Marble app.
+  - Coordinate system: Marble/OpenCV (+x left, +y down, +z forward). Convert before Isaac Sim.
