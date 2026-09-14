@@ -9,7 +9,14 @@ import sys
 from pathlib import Path
 
 from pharmaverse.worlds.client import WorldAPIError, WorldLabsClient, load_api_key
-from pharmaverse.worlds.pipeline import generate_jobs, planned_payload, write_json
+from pharmaverse.worlds.pipeline import (
+    generate_jobs,
+    handoff_status,
+    ingest_world,
+    parse_world_id,
+    planned_payload,
+    write_json,
+)
 from pharmaverse.worlds.recipe import PlanMode, load_recipe, plan_jobs
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -31,7 +38,7 @@ def _load_env_file(path: Path) -> None:
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="pharmaverse-worlds",
-        description="Generate and export World Labs Marble worlds for PharmaVerse.",
+        description="Generate, ingest, and export World Labs Marble worlds for PharmaVerse.",
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -64,8 +71,36 @@ def _parser() -> argparse.ArgumentParser:
     generate.add_argument("--poll-interval", type=float, default=5.0)
     generate.add_argument("--base-url", default="https://api.worldlabs.ai")
 
+    ingest = sub.add_parser(
+        "ingest",
+        help="Record an already-generated Marble world and export PLY + collider",
+    )
+    ingest.add_argument("--world-id", required=True, help="World UUID or marble.worldlabs.ai/world/ URL")
+    ingest.add_argument("--recipe", type=Path, default=DEFAULT_RECIPE)
+    ingest.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    ingest.add_argument("--job-id")
+    ingest.add_argument("--prompt-id", dest="prompt_id")
+    ingest.add_argument("--seed", type=int, default=1)
+    ingest.add_argument(
+        "--as-primary",
+        action="store_true",
+        help="Store as the packaging_suite_v1 primary keeper (seed 1 unless --seed is set)",
+    )
+    ingest.add_argument("--no-download", action="store_true")
+    ingest.add_argument("--poll-interval", type=float, default=5.0)
+    ingest.add_argument("--base-url", default="https://api.worldlabs.ai")
+
+    listing = sub.add_parser("list", help="List World API worlds for this account")
+    listing.add_argument("--model", default="marble-1.1")
+    listing.add_argument("--page-size", type=int, default=20)
+    listing.add_argument("--page-token")
+    listing.add_argument("--base-url", default="https://api.worldlabs.ai")
+
     credits = sub.add_parser("credits", help="Show remaining World API credits")
     credits.add_argument("--base-url", default="https://api.worldlabs.ai")
+
+    status = sub.add_parser("status", help="Show the next step after a generated Marble world")
+    status.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
 
     export = sub.add_parser("plan", help="Write planned jobs JSON and exit")
     export.add_argument("--recipe", type=Path, default=DEFAULT_RECIPE)
@@ -90,9 +125,23 @@ def _jobs_from_args(args: argparse.Namespace) -> tuple[dict, list]:
     return recipe, jobs
 
 
+def _client(args: argparse.Namespace) -> WorldLabsClient:
+    _load_env_file(ROOT / ".env")
+    return WorldLabsClient(load_api_key(), base_url=args.base_url)
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     try:
+        if args.command == "status":
+            payload = handoff_status(args.output)
+            json.dump(payload, sys.stdout, indent=2, sort_keys=True)
+            sys.stdout.write("\n")
+            print(payload["summary"], file=sys.stderr)
+            for command in payload["commands"]:
+                print(f"  {command}", file=sys.stderr)
+            return 0
+
         if args.command in {"generate", "plan"}:
             recipe, jobs = _jobs_from_args(args)
             try:
@@ -113,8 +162,7 @@ def main(argv: list[str] | None = None) -> int:
                     file=sys.stderr,
                 )
                 return 0
-            _load_env_file(ROOT / ".env")
-            client = WorldLabsClient(load_api_key(), base_url=args.base_url)
+            client = _client(args)
             records = generate_jobs(
                 client,
                 jobs,
@@ -129,11 +177,73 @@ def main(argv: list[str] | None = None) -> int:
                 indent=2,
             )
             sys.stdout.write("\n")
+            print(handoff_status(args.output)["summary"], file=sys.stderr)
+            return 0
+
+        if args.command == "ingest":
+            client = _client(args)
+            record = ingest_world(
+                client,
+                parse_world_id(args.world_id),
+                args.output,
+                recipe_path=args.recipe,
+                job_id=args.job_id,
+                prompt_id=args.prompt_id,
+                seed=args.seed,
+                as_primary=args.as_primary or not args.job_id,
+                download=not args.no_download,
+                poll_interval_s=args.poll_interval,
+                progress=lambda message: print(message, file=sys.stderr),
+            )
+            json.dump(
+                {
+                    "job_id": record["job"]["job_id"],
+                    "world_id": record["world_id"],
+                    "metadata_path": record["metadata_path"],
+                    "local_files": record.get("local_files") or {},
+                },
+                sys.stdout,
+                indent=2,
+            )
+            sys.stdout.write("\n")
+            status = handoff_status(args.output)
+            print(status["summary"], file=sys.stderr)
+            for command in status["commands"]:
+                print(f"  {command}", file=sys.stderr)
+            return 0
+
+        if args.command == "list":
+            client = _client(args)
+            payload = client.list_worlds(
+                model=args.model,
+                page_size=args.page_size,
+                page_token=args.page_token,
+                sort_by="created_at",
+            )
+            worlds = payload.get("worlds") or payload.get("items") or []
+            compact = []
+            for world in worlds:
+                world = world if isinstance(world, dict) else {}
+                world_id = world.get("world_id") or world.get("id")
+                compact.append(
+                    {
+                        "world_id": world_id,
+                        "model": world.get("model"),
+                        "display_name": world.get("display_name"),
+                        "marble_url": world.get("world_marble_url")
+                        or (f"https://marble.worldlabs.ai/world/{world_id}" if world_id else None),
+                    }
+                )
+            json.dump(
+                {"worlds": compact, "next_page_token": payload.get("next_page_token")},
+                sys.stdout,
+                indent=2,
+            )
+            sys.stdout.write("\n")
             return 0
 
         if args.command == "credits":
-            _load_env_file(ROOT / ".env")
-            client = WorldLabsClient(load_api_key(), base_url=args.base_url)
+            client = _client(args)
             json.dump(client.get_credits(), sys.stdout, indent=2)
             sys.stdout.write("\n")
             return 0
@@ -146,7 +256,7 @@ def main(argv: list[str] | None = None) -> int:
                 file=sys.stderr,
             )
         return 2
-    except (ValueError, OSError) as exc:
+    except (ValueError, OSError, RuntimeError) as exc:
         print(exc, file=sys.stderr)
         return 2
     return 1

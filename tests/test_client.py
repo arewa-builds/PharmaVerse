@@ -52,3 +52,24 @@ def test_generate_and_poll(tmp_path) -> None:  # noqa: ARG001
     assert started["operation_id"] == "op-1"
     assert unwrap_world(done["response"])["world_id"] == "w-1"
     assert ("POST", "https://api.worldlabs.ai/marble/v1/worlds:generate") in calls
+
+
+def test_list_worlds() -> None:
+    def opener(req: Request) -> tuple[int, bytes]:
+        assert req.get_method() == "POST"
+        assert req.full_url.endswith("/worlds:list")
+        return 200, json.dumps(
+            {
+                "worlds": [
+                    {
+                        "id": "w-1",
+                        "model": "marble-1.1",
+                        "display_name": "suite",
+                        "world_marble_url": "https://marble.worldlabs.ai/world/w-1",
+                    }
+                ]
+            }
+        ).encode()
+
+    payload = WorldLabsClient("test-key", opener=opener).list_worlds(model="marble-1.1", page_size=5)
+    assert payload["worlds"][0]["id"] == "w-1"

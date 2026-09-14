@@ -3,7 +3,7 @@
   "records": [
     {
       "job_id": "packaging_suite_v1__primary__seed1",
-      "metadata_path": "C:\\Users\\arewa\\OneDrive\\Documents\\Exodus\\PharmaVerse\\worlds\\marble\\metadata\\packaging_suite_v1__primary__seed1.json",
+      "metadata_path": "worlds/marble/metadata/packaging_suite_v1__primary__seed1.json",
       "world_id": "850b4709-cabf-4643-8bf6-5cc187e85fa4",
       "world_marble_url": "https://marble.worldlabs.ai/world/850b4709-cabf-4643-8bf6-5cc187e85fa4"
     }

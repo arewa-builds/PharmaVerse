@@ -12,10 +12,11 @@ This is a research, simulation, and engineering prototype. It is **not** a valid
 
 The full objectives and execution plan live in [`project_description.txt`](./project_description.txt).
 
-**Current phase: 3 — OpenUSD conversion and Environment V1.**  
+**Current phase: 4 — Isaac Sim integration.**  
 Phase 1 design: [`docs/system-design.md`](./docs/system-design.md).  
 Phase 2 runbook: [`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md).  
-Phase 3 runbook: [`docs/phase-3-openusd.md`](./docs/phase-3-openusd.md).
+Phase 3 runbook: [`docs/phase-3-openusd.md`](./docs/phase-3-openusd.md).  
+Phase 4 runbook: [`docs/phase-4-isaac-sim.md`](./docs/phase-4-isaac-sim.md).
 
 ---
 
@@ -90,7 +91,8 @@ Marble is generally available and the World API is public. Atlas is entering ear
 
 1. Research and architecture — **done** ([`docs/system-design.md`](./docs/system-design.md))
 2. **World Labs Marble world generation** — done ([`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md))
-3. OpenUSD conversion and environment prototype — in progress ([`docs/phase-3-openusd.md`](./docs/phase-3-openusd.md))
+3. OpenUSD conversion and environment prototype — done ([`docs/phase-3-openusd.md`](./docs/phase-3-openusd.md))
+4. Isaac Sim integration — in progress ([`docs/phase-4-isaac-sim.md`](./docs/phase-4-isaac-sim.md))
 4. Isaac Sim integration
 5. Synthetic data pipeline
 6. Domain randomization
@@ -127,15 +129,27 @@ Demo loop: cleared station → residual object appears → camera observes it �
 
 ## Repository status
 
-Phase 3 adds Environment V1 as OpenUSD ASCII. Live NuRec PLY→USDZ conversion needs an NVIDIA GPU and 3DGRUT.
+Phase 4 attaches the live Marble 1.1 keeper to Isaac Sim. Convert the PLY on an NVIDIA GPU, then open Environment V1.
 
 ```text
 PharmaVerse/
-├── docs/phase-3-openusd.md
-├── config/usd/environment_v1.yaml
-├── src/pharmaverse/usd/
+├── docs/phase-4-isaac-sim.md
+├── config/sim/isaac_v1.yaml
+├── src/pharmaverse/sim/
 └── worlds/usd/environment_v1/environment_v1.usda
 ```
+
+### After you generate a Marble world
+
+```bash
+python -m pharmaverse.worlds status
+python -m pharmaverse.worlds ingest --world-id 850b4709-cabf-4643-8bf6-5cc187e85fa4 --as-primary
+python -m pharmaverse.usd convert
+python -m pharmaverse.usd attach
+python -m pharmaverse.sim checklist
+```
+
+Live keeper: [`850b4709-cabf-4643-8bf6-5cc187e85fa4`](https://marble.worldlabs.ai/world/850b4709-cabf-4643-8bf6-5cc187e85fa4) (`marble-1.1`). Details: [`docs/phase-4-isaac-sim.md`](./docs/phase-4-isaac-sim.md).
 
 ### Generate a Marble world
 

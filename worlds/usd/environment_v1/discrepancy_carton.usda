@@ -14,12 +14,12 @@ def Xform "World"
 
     def Xform "Marble"
     {
-        custom string pharmaverse:worldId = ""
-        custom double pharmaverse:metricScaleFactor = 1
-        custom double pharmaverse:groundPlaneOffset = 0
+        custom string pharmaverse:worldId = "850b4709-cabf-4643-8bf6-5cc187e85fa4"
+        custom double pharmaverse:metricScaleFactor = 1.66379
+        custom double pharmaverse:groundPlaneOffset = 1.79193
         custom string pharmaverse:coordinateNote = "Marble OpenCV (+x left, +y down, +z forward). Collider rotateXYZ -90 X for Isaac Sim."
-        double3 xformOp:translate = (0, 0, 0)
-        float3 xformOp:scale = (1, 1, 1)
+        double3 xformOp:translate = (0, -1.79193, 0)
+        float3 xformOp:scale = (1.66379, 1.66379, 1.66379)
         uniform token[] xformOpOrder = ["xformOp:scale", "xformOp:translate"]
         def Xform "Splat"
         {

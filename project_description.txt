@@ -836,6 +836,10 @@ Validate that the environment behaves consistently.
 
 **Simulation-Ready PharmaVerse V1**
 
+Isaac Sim contract: [`config/sim/isaac_v1.yaml`](config/sim/isaac_v1.yaml).  
+Helpers: `python -m pharmaverse.sim checklist`.  
+Runbook: [`docs/phase-4-isaac-sim.md`](docs/phase-4-isaac-sim.md).
+
 ---
 
 ## Phase 5: Synthetic Data Pipeline

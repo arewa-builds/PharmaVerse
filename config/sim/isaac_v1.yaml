@@ -1,0 +1,67 @@
+# Isaac Sim V1 scene contract for PharmaVerse Environment V1.
+# Phase 4 validates this in Isaac Sim. Phase 5 adds Replicator writers.
+
+version: 1
+phase: 4
+experiment: line_clearance_01
+stage: worlds/usd/environment_v1/environment_v1.usda
+discrepancy_stage: worlds/usd/environment_v1/discrepancy_carton.usda
+
+isaac_sim:
+  minimum: "5.1"
+  preferred: "6.0"
+  nurec: required
+  notes: >
+    Prefer Isaac Sim 6.x once NuRec Gaussian USDZ import is confirmed.
+    Do not add a robot in Phase 4; line clearance only needs cameras,
+    physics, and spawnable residuals.
+
+prims:
+  world: /World
+  marble: /World/Marble
+  splat: /World/Marble/Splat
+  collider: /World/Marble/Collider
+  ground: /World/GroundPlane
+  reference_cube: /World/ReferenceMeterCube
+  lights: /World/Lights
+  equipment: /World/Equipment
+  zones: /World/Zones
+  residuals: /World/Residuals
+  cameras:
+    - /World/Cameras/cam_overhead
+    - /World/Cameras/cam_angled
+
+physics:
+  collider_rotate_xyz_deg: [-90.0, 0.0, 0.0]
+  hide_collider: true
+  residual_rigid_body: true
+  play_test_class: carton
+  ground_is_shadow_receiver: true
+
+rules:
+  - Residuals are USD prims under /World/Residuals, never baked Marble splat bottles.
+  - Default expected state is CLEAR (residuals invisible).
+  - Any visible detection-class prim in a zone is REVIEW REQUIRED.
+  - Collider stays parented under /World/Marble so it inherits metric scale.
+
+checklist:
+  - id: open_stage
+    title: Environment V1 USDA opens in Isaac Sim
+  - id: splat_visible
+    title: Converted NuRec USDZ is visible under /World/Marble/Splat
+  - id: metric_scale
+    title: 1 m reference cube matches human-scale packaging furniture
+  - id: collider_aligned
+    title: Collider GLB is under /World/Marble/Collider with rotateXYZ X = -90
+  - id: collider_hidden
+    title: Collider mesh is invisible but collision-enabled
+  - id: residual_rests
+    title: Play — carton residual rests on the conveyor instead of falling through
+  - id: clear_state
+    title: CLEAR stage hides all /World/Residuals children
+  - id: discrepancy_state
+    title: discrepancy_carton.usda shows only Carton
+  - id: cameras
+    title: cam_overhead and cam_angled both render 1920x1080
+  - id: no_splat_targets
+    title: Splat-baked bottles are treated as background, not detection targets

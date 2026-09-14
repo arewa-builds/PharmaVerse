@@ -34,3 +34,9 @@ def test_missing_key_fails_live_generate(monkeypatch) -> None:
     monkeypatch.delenv("WLT_API_KEY", raising=False)
     code = main(["generate", "--recipe", str(RECIPE), "--mode", "primary"])
     assert code == 2
+
+
+def test_missing_key_fails_ingest(monkeypatch) -> None:
+    monkeypatch.delenv("WLT_API_KEY", raising=False)
+    code = main(["ingest", "--world-id", "world-1"])
+    assert code == 2

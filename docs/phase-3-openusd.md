@@ -58,10 +58,15 @@ This environment has **no NVIDIA GPU and no 3DGRUT**, so live PLY→USDZ convers
 
 ## Open in Isaac Sim (Phase 4)
 
-1. Open `environment_v1.usda`.
-2. If a USDZ was attached, align the splat to the ground plane using the 1 m reference cube.
-3. Import the collider GLB under `/World/Marble/Collider` if the asset converter did not already load `pharmaverse:colliderGltf`.
-4. Enable the PhysX collision mesh, hide collider rendering, confirm residual cubes rest on the conveyor.
+See [`docs/phase-4-isaac-sim.md`](phase-4-isaac-sim.md). After a live Marble world exists:
+
+```bash
+python -m pharmaverse.worlds status
+python -m pharmaverse.usd convert
+python -m pharmaverse.usd attach
+```
+
+Then open `environment_v1.usda` in Isaac Sim 5.1+ / 6.x, confirm the 1 m cube scale, enable the PhysX collider, hide collider rendering, and Play with a carton residual.
 
 ## Coordinate note
 

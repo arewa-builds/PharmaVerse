@@ -9,10 +9,27 @@ from typing import Any
 
 import yaml
 
+from pharmaverse.usd.convert import ConversionError, ply_to_usdz
 from pharmaverse.usd.usda import fmt_vec, semantic_block, xform_ops
+from pharmaverse.worlds.pipeline import repo_relative, resolve_recorded_path
 
 ROOT = Path(__file__).resolve().parents[3]
 HORIZONTAL_APERTURE_MM = 20.955
+
+
+def _existing_asset(raw: str | Path | None) -> Path | None:
+    if not raw:
+        return None
+    path = Path(raw)
+    if path.is_file():
+        return path
+    rooted = ROOT / path
+    if rooted.is_file():
+        return rooted
+    resolved = resolve_recorded_path(str(raw))
+    if resolved is not None and resolved.is_file():
+        return resolved
+    return None
 
 
 def load_yaml(path: str | Path) -> dict[str, Any]:
@@ -34,13 +51,16 @@ def marble_overrides(metadata_path: str | Path | None) -> dict[str, Any]:
     assets = payload.get("assets") or {}
     semantics = assets.get("semantics_metadata") or {}
     local = payload.get("local_files") or {}
+    ply = resolve_recorded_path(local.get("ply"))
+    collider = resolve_recorded_path(local.get("collider"))
     return {
         "world_id": payload.get("world_id"),
         "metric_scale_factor": semantics.get("metric_scale_factor"),
         "ground_plane_offset": semantics.get("ground_plane_offset"),
-        "ply_path": local.get("ply"),
-        "collider_path": local.get("collider"),
+        "ply_path": repo_relative(ply) if ply else local.get("ply"),
+        "collider_path": repo_relative(collider) if collider else local.get("collider"),
         "marble_url": (payload.get("world") or {}).get("marble_url"),
+        "model": (payload.get("world") or {}).get("model"),
     }
 
 
@@ -369,20 +389,30 @@ def write_environment(
 ) -> Path:
     output.parent.mkdir(parents=True, exist_ok=True)
     marble = marble_overrides(metadata_path) if metadata_path else {}
+    if splat_usdz is None:
+        default_usdz = output.parent / "marble" / "splats.usdz"
+        if default_usdz.is_file():
+            splat_usdz = default_usdz
+    if collider_glb is None:
+        collider_glb = _existing_asset(marble.get("collider_path"))
     splat_rel = None
     collider_rel = None
     if splat_usdz:
+        splat_usdz = Path(splat_usdz)
         dest = output.parent / "marble" / splat_usdz.name
         dest.parent.mkdir(parents=True, exist_ok=True)
-        if splat_usdz.resolve() != dest.resolve():
+        if splat_usdz.is_file() and splat_usdz.resolve() != dest.resolve():
             dest.write_bytes(splat_usdz.read_bytes())
-        splat_rel = f"./marble/{dest.name}"
+        if dest.is_file() or splat_usdz.is_file():
+            splat_rel = f"./marble/{dest.name}"
     if collider_glb:
+        collider_glb = Path(collider_glb)
         dest = output.parent / "marble" / collider_glb.name
         dest.parent.mkdir(parents=True, exist_ok=True)
-        if collider_glb.resolve() != dest.resolve():
+        if collider_glb.is_file() and collider_glb.resolve() != dest.resolve():
             dest.write_bytes(collider_glb.read_bytes())
-        collider_rel = f"./marble/{dest.name}"
+        if dest.is_file() or collider_glb.is_file():
+            collider_rel = f"./marble/{dest.name}"
     usda = compose_usda(
         taxonomy=load_yaml(taxonomy_path),
         cameras=load_yaml(cameras_path),
@@ -417,3 +447,38 @@ def write_environment(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     return output
+
+
+def attach_marble(
+    output: Path,
+    *,
+    metadata_path: Path,
+    taxonomy_path: Path,
+    cameras_path: Path,
+    layout_path: Path,
+    splat_usdz: Path | None = None,
+    collider_glb: Path | None = None,
+    convert: bool = False,
+    sample_discrepancy: str | None = None,
+) -> Path:
+    """Compose Environment V1 from a recorded Marble world, converting PLY if asked."""
+    marble = marble_overrides(metadata_path)
+    if convert:
+        ply = _existing_asset(marble.get("ply_path"))
+        if ply is None:
+            raise ConversionError(
+                "PLY is not on disk. Run ingest/generate on the machine that has "
+                f"the export, or pass an existing file. Looked for: {marble.get('ply_path')}"
+            )
+        dest = output.parent / "marble" / "splats.usdz"
+        splat_usdz = ply_to_usdz(ply, dest)
+    return write_environment(
+        output,
+        taxonomy_path=taxonomy_path,
+        cameras_path=cameras_path,
+        layout_path=layout_path,
+        metadata_path=metadata_path,
+        splat_usdz=splat_usdz,
+        collider_glb=collider_glb,
+        sample_discrepancy=sample_discrepancy,
+    )

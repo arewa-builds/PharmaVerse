@@ -4,7 +4,7 @@ import math
 from pathlib import Path
 
 from pharmaverse.usd.cli import main
-from pharmaverse.usd.compose import compose_usda, focal_length_mm, load_yaml, write_environment
+from pharmaverse.usd.compose import attach_marble, compose_usda, focal_length_mm, load_yaml, write_environment
 from pharmaverse.usd.convert import ConversionError, ply_to_usdz, threedgrut_available
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -81,6 +81,24 @@ def test_write_environment_and_cli(tmp_path: Path) -> None:
     code = main(["compose", "--output", str(tmp_path / "from_cli.usda")])
     assert code == 0
     assert (tmp_path / "from_cli.usda").is_file()
+
+
+def test_attach_stamps_live_marble_metadata(tmp_path: Path) -> None:
+    metadata = ROOT / "worlds" / "marble" / "metadata" / "packaging_suite_v1__primary__seed1.json"
+    output = tmp_path / "environment_v1.usda"
+    attach_marble(
+        output,
+        metadata_path=metadata,
+        taxonomy_path=ROOT / "config" / "taxonomy.yaml",
+        cameras_path=ROOT / "config" / "cameras.yaml",
+        layout_path=ROOT / "config" / "usd" / "environment_v1.yaml",
+    )
+    text = output.read_text(encoding="utf-8")
+    assert "850b4709-cabf-4643-8bf6-5cc187e85fa4" in text
+    assert "pending_nurec_conversion" in text
+    assert "1.66379" in text
+    manifest = output.with_suffix(".manifest.json").read_text(encoding="utf-8")
+    assert "850b4709-cabf-4643-8bf6-5cc187e85fa4" in manifest
 
 
 def test_convert_without_threedgrut(tmp_path: Path) -> None:

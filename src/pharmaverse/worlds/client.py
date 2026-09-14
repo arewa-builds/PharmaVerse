@@ -109,6 +109,10 @@ class WorldLabsClient:
     def get_world(self, world_id: str) -> dict[str, Any]:
         return unwrap_world(self.request("GET", f"/marble/v1/worlds/{world_id}"))
 
+    def list_worlds(self, **filters: Any) -> dict[str, Any]:
+        body = {key: value for key, value in filters.items() if value is not None}
+        return self.request("POST", "/marble/v1/worlds:list", body or {"page_size": 20})
+
     def export_world(self, world_id: str, export_request: dict[str, Any]) -> dict[str, Any]:
         return self.request(
             "POST",

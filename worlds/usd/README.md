@@ -13,6 +13,8 @@ Compose with:
 
 ```bash
 python -m pharmaverse.usd compose
+python -m pharmaverse.usd attach
+python -m pharmaverse.sim checklist
 ```
 
 See [`docs/phase-3-openusd.md`](../../docs/phase-3-openusd.md).
