@@ -18,6 +18,14 @@ Phase 2 runbook: [`docs/phase-2-world-generation.md`](./docs/phase-2-world-gener
 Phase 3 runbook: [`docs/phase-3-openusd.md`](./docs/phase-3-openusd.md).  
 Phase 4 runbook: [`docs/phase-4-isaac-sim.md`](./docs/phase-4-isaac-sim.md).
 
+### Packaging suite V1 (Marble 1.1)
+
+Live keeper [`packaging_suite_v1__primary__seed1`](https://marble.worldlabs.ai/world/850b4709-cabf-4643-8bf6-5cc187e85fa4). Thumbnail and panorama from the generated world. Bottles and cartons in these images are baked Marble appearance (background), not spawnable line-clearance residuals.
+
+![Packaging suite V1 thumbnail](worlds/marble/previews/packaging_suite_v1__primary__seed1/thumbnail.jpg)
+
+![Packaging suite V1 panorama](worlds/marble/previews/packaging_suite_v1__primary__seed1/pano.png)
+
 ---
 
 ## Research questions
