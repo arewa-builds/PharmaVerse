@@ -16,7 +16,8 @@ The full objectives and execution plan live in [`project_description.txt`](./pro
 Phase 1 design: [`docs/system-design.md`](./docs/system-design.md).  
 Phase 2 runbook: [`docs/phase-2-world-generation.md`](./docs/phase-2-world-generation.md).  
 Phase 3 runbook: [`docs/phase-3-openusd.md`](./docs/phase-3-openusd.md).  
-Phase 4 runbook: [`docs/phase-4-isaac-sim.md`](./docs/phase-4-isaac-sim.md).
+Phase 4 runbook: [`docs/phase-4-isaac-sim.md`](./docs/phase-4-isaac-sim.md).  
+GPU-day run sheet (Launchable): [`docs/gpu-day-run-sheet.md`](./docs/gpu-day-run-sheet.md).
 
 ### Packaging suite V1 (Marble 1.1)
 

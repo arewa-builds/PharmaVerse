@@ -16,6 +16,8 @@ A **marble-1.1** keeper already exists:
 
 PLY + collider were downloaded on the machine that ran generate. They are gitignored. This cloud checkout does not have an NVIDIA GPU, so 3DGRUT conversion is still a local step.
 
+**GPU billing hold:** use the one-page Launchable session plan [`docs/gpu-day-run-sheet.md`](gpu-day-run-sheet.md). Convert, attach, prove the carton rests on the conveyor, then stop the instance. Do not capture the dataset in that session.
+
 Check status anytime:
 
 ```bash
