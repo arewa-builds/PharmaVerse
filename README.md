@@ -20,7 +20,9 @@ Phase 4 runbook: [`docs/phase-4-isaac-sim.md`](./docs/phase-4-isaac-sim.md).
 
 ### Packaging suite V1 (Marble 1.1)
 
-Live keeper [`packaging_suite_v1__primary__seed1`](https://marble.worldlabs.ai/world/850b4709-cabf-4643-8bf6-5cc187e85fa4). Thumbnail and panorama from the generated world. Bottles and cartons in these images are baked Marble appearance (background), not spawnable line-clearance residuals.
+Public world: [https://marble.worldlabs.ai/world/850b4709-cabf-4643-8bf6-5cc187e85fa4](https://marble.worldlabs.ai/world/850b4709-cabf-4643-8bf6-5cc187e85fa4)
+
+Thumbnail and panorama from keeper `packaging_suite_v1__primary__seed1`. Bottles and cartons in these images are baked Marble appearance (background), not spawnable line-clearance residuals.
 
 ![Packaging suite V1 thumbnail](worlds/marble/previews/packaging_suite_v1__primary__seed1/thumbnail.jpg)
 
@@ -157,7 +159,7 @@ python -m pharmaverse.usd attach
 python -m pharmaverse.sim checklist
 ```
 
-Live keeper: [`850b4709-cabf-4643-8bf6-5cc187e85fa4`](https://marble.worldlabs.ai/world/850b4709-cabf-4643-8bf6-5cc187e85fa4) (`marble-1.1`). Details: [`docs/phase-4-isaac-sim.md`](./docs/phase-4-isaac-sim.md).
+Public world: [`850b4709-cabf-4643-8bf6-5cc187e85fa4`](https://marble.worldlabs.ai/world/850b4709-cabf-4643-8bf6-5cc187e85fa4) (`marble-1.1`). Details: [`docs/phase-4-isaac-sim.md`](./docs/phase-4-isaac-sim.md).
 
 ### Generate a Marble world
 
